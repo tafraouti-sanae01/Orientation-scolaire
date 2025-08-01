@@ -1,81 +1,51 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use Illuminate\View\View;
 
-class StudentConfigController extends Controller
+class RegisteredUserController extends Controller
 {
-    public function show(Request $request)
+    /**
+     * Display the registration view.
+     */
+    public function create(): View
     {
-        $step = $request->session()->get('student_config_step', 1);
-        $data = $request->session()->get('student_config_data', []);
-        return view('student.config', compact('step', 'data'));
+        return view('auth.register');
     }
 
-    public function store(Request $request)
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request): RedirectResponse
     {
-        $step = $request->session()->get('student_config_step', 1);
-        $data = $request->session()->get('student_config_data', []);
-
-        // Validation et stockage par étape
-        if ($step == 1) {
-            $validated = $request->validate([
-                'bac_level' => 'required',
-            ]);
-            $data['bac_level'] = $validated['bac_level'];
-        }
-        if ($step == 2) {
-            $validated = $request->validate([
-                'bac_lang' => 'required',
-            ]);
-            $data['bac_lang'] = $validated['bac_lang'];
-        }
-        if ($step == 3) {
-            $validated = $request->validate([
-                'bac_field' => 'required',
-            ]);
-            $data['bac_field'] = $validated['bac_field'];
-        }
-        if ($step == 4) {
-            $validated = $request->validate([
-                'preference' => 'required',
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-            $data['preference'] = $validated['preference'];
-        }
-        if ($step == 5) {
-            $validated = $request->validate([
-                'name' => 'required',
-                'age' => 'required|numeric',
-            ]);
-            $data['name'] = $validated['name'];
-            $data['age'] = $validated['age'];
-        }
 
-        // Stocker les données en session
-        $request->session()->put('student_config_data', $data);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-        // Gestion des étapes
-        if ($request->has('prev')) {
-            $step = max(1, $step - 1);
-        } else {
-            $step++;
-        }
+        event(new Registered($user));
 
-        // Si terminé, enregistrer en base et vider la session
-        if ($step > 5) {
-            // Exemple d'enregistrement (à adapter selon ta structure)
-            $user = Auth::user();
-            $user->update([
-                'name' => $data['name'],
-                // Ajoute ici les autres champs à enregistrer
-            ]);
-            $request->session()->forget(['student_config_step', 'student_config_data']);
-            return redirect('/student/home')->with('success', 'Configuration terminée !');
-        }
+        Auth::login($user);
 
-        $request->session()->put('student_config_step', $step);
-        return redirect()->route('student.config');
+        return redirect('/student/config');
     }
 }

@@ -21,6 +21,23 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'prenom',
+        'school',
+        'age',
+        'city',
+        'gender',
+        'school_type',
+        'bac_obtenu',
+        'bac_level',
+        'bac_lang',
+        'bac_field',
+        'university_type',
+        'services',
+        'budget',
+        'study_abroad',
+        'cities',
+        'languages',
+        'profile_completed',
     ];
 
     /**
@@ -43,6 +60,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'services' => 'array',
+            'languages' => 'array',
+            'profile_completed' => 'boolean',
         ];
     }
 }

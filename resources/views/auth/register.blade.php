@@ -35,8 +35,7 @@
     <div class="register-card row mx-auto bg-white">
         <!-- Left: Illustration & citation -->
         <div class="col-md-6 register-bg p-5 d-none d-md-flex flex-column align-items-center justify-content-center">
-            <img src="{{ asset('images/logo.png') }}" alt="E-Tawjihi" style="max-width: 180px;">
-            <div class="register-quote mt-4">
+            <div class="register-quote">
                 <span class="fs-5">" La réussite dépend d'une bonne orientation ! "</span>
             </div>
             <img src="{{ asset('images/books-illustration.png') }}" alt="Illustration" class="mt-4" style="max-width: 220px;">

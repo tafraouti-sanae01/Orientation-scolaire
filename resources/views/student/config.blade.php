@@ -122,7 +122,7 @@
                         <label class="form-label fw-bold">Préférez-vous étudier dans une université publique, privée, ou pensez-vous aux deux comme options possibles ?</label>
                         <div class="mt-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="university_type" id="public" value="public" {{ (isset($data['university_type']) && $data['university_type']=='public') ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="university_type" id="public" value="public" {{ (isset($data['university_type']) && $data['university_type']=='public') ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="public">Public</label>
                             </div>
                             <div class="form-check">
@@ -160,7 +160,7 @@
                         <label class="form-label fw-bold">Quel est votre budget (par mois) maximale pour vos études supérieures ?</label>
                         <div class="mt-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="budget" id="less_5000" value="less_5000" {{ (isset($data['budget']) && $data['budget']=='less_5000') ? 'checked' : '' }}>
+                                <input class="form-check-input" type="radio" name="budget" id="less_5000" value="less_5000" {{ (isset($data['budget']) && $data['budget']=='less_5000') ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="less_5000">Moins de 5000Dhs/Mois</label>
                             </div>
                             <div class="form-check">
@@ -170,6 +170,25 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="budget" id="more_10000" value="more_10000" {{ (isset($data['budget']) && $data['budget']=='more_10000') ? 'checked' : '' }}>
                                 <label class="form-check-label" for="more_10000">Plus de 10000 Dhs/Mois</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Étudier à l'étranger -->
+                    <div class="mb-4 p-3 bg-light rounded">
+                        <label class="form-label fw-bold">Souhaitez vous étudier à l'étranger ?</label>
+                        <div class="mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="study_abroad" id="no_abroad" value="no" {{ (isset($data['study_abroad']) && $data['study_abroad']=='no') ? 'checked' : '' }} required>
+                                <label class="form-check-label" for="no_abroad">Non</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="study_abroad" id="maybe_abroad" value="maybe" {{ (isset($data['study_abroad']) && $data['study_abroad']=='maybe') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="maybe_abroad">Peut-être</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="study_abroad" id="yes_abroad" value="yes" {{ (isset($data['study_abroad']) && $data['study_abroad']=='yes') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="yes_abroad">Oui</label>
                             </div>
                         </div>
                     </div>
@@ -186,20 +205,20 @@
                         <label class="form-label fw-bold">Quels sont les langues que vous préférez ?</label>
                         <div class="mt-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="services[]" id="public_schools" value="public_schools" {{ (isset($data['services']) && in_array('public_schools', $data['services'])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="public_schools">Français</label>
+                                <input class="form-check-input" type="checkbox" name="languages[]" id="francais" value="francais" {{ (isset($data['languages']) && in_array('francais', $data['languages'])) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="francais">Français</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="services[]" id="private_schools" value="private_schools" {{ (isset($data['services']) && in_array('private_schools', $data['services'])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="private_schools">Arabe</label>
+                                <input class="form-check-input" type="checkbox" name="languages[]" id="arabe" value="arabe" {{ (isset($data['languages']) && in_array('arabe', $data['languages'])) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="arabe">Arabe</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="services[]" id="guidance" value="guidance" {{ (isset($data['services']) && in_array('guidance', $data['services'])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="guidance">Anglais</label>
+                                <input class="form-check-input" type="checkbox" name="languages[]" id="anglais" value="anglais" {{ (isset($data['languages']) && in_array('anglais', $data['languages'])) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="anglais">Anglais</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="services[]" id="guidance" value="guidance" {{ (isset($data['services']) && in_array('guidance', $data['services'])) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="guidance">Espagnol</label>
+                                <input class="form-check-input" type="checkbox" name="languages[]" id="espagnol" value="espagnol" {{ (isset($data['languages']) && in_array('espagnol', $data['languages'])) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="espagnol">Espagnol</label>
                             </div>
                         </div>
                     </div>
@@ -208,15 +227,15 @@
                     <p class="text-muted mb-4">Remplissez vos informations pour personnaliser votre expérience sur notre plateforme !</p>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="name" class="form-label">Nom *</label>
+                            <label for="name" class="form-label">Nom </label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ $data['name'] ?? '' }}" required placeholder="Votre nom">
                         </div>
                         <div class="col-md-6">
-                            <label for="prenom" class="form-label">Prénom *</label>
+                            <label for="prenom" class="form-label">Prénom </label>
                             <input type="text" class="form-control" id="prenom" name="prenom" value="{{ $data['prenom'] ?? '' }}" required placeholder="Votre prénom">
                         </div>
                         <div class="col-md-6">
-                            <label for="email" class="form-label">E-mail *</label>
+                            <label for="email" class="form-label">E-mail </label>
                             <input type="email" class="form-control" id="email" name="email" value="{{ $data['email'] ?? Auth::user()->email }}" required placeholder="Votre e-mail">
                         </div>
                         <div class="col-md-6">
@@ -224,15 +243,15 @@
                             <input type="text" class="form-control" id="school" name="school" value="{{ $data['school'] ?? '' }}" placeholder="Nom de l'établissement ici...">
                         </div>
                         <div class="col-md-6">
-                            <label for="age" class="form-label">Âge *</label>
+                            <label for="age" class="form-label">Âge </label>
                             <input type="number" class="form-control" id="age" name="age" value="{{ $data['age'] ?? '' }}" required placeholder="Exemple : 17">
                         </div>
                         <div class="col-md-6">
-                            <label for="city" class="form-label">Votre ville *</label>
+                            <label for="city" class="form-label">Votre ville </label>
                             <input type="text" class="form-control" id="city" name="city" value="{{ $data['city'] ?? '' }}" required placeholder="Sélectionnez votre ville...">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Genre *</label>
+                            <label class="form-label">Genre </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="gender" id="homme" value="homme" {{ (isset($data['gender']) && $data['gender']=='homme') ? 'checked' : '' }} required>
@@ -245,7 +264,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Type école *</label>
+                            <label class="form-label">Type école </label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="school_type" id="prive" value="prive" {{ (isset($data['school_type']) && $data['school_type']=='prive') ? 'checked' : '' }} required>
@@ -258,16 +277,8 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="bac_obtenu" class="form-label">As-tu obtenu ton Baccalauréat ? *</label>
+                            <label for="bac_obtenu" class="form-label">As-tu obtenu ton Baccalauréat ? </label>
                             <input type="text" class="form-control" id="bac_obtenu" name="bac_obtenu" value="{{ $data['bac_obtenu'] ?? '' }}" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="tuteur" class="form-label">Nom de votre Tuteur légal (Parents ou autres) *</label>
-                            <input type="text" class="form-control" id="tuteur" name="tuteur" value="{{ $data['tuteur'] ?? '' }}" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="tuteur_phone" class="form-label">Téléphone de votre Tuteur légal (Parents ou autres)</label>
-                            <input type="text" class="form-control" id="tuteur_phone" name="tuteur_phone" value="{{ $data['tuteur_phone'] ?? '' }}" placeholder="Téléphone de votre tuteur">
                         </div>
                     </div>
                 @endif
