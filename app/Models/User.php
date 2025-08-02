@@ -65,4 +65,9 @@ class User extends Authenticatable
             'profile_completed' => 'boolean',
         ];
     }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }

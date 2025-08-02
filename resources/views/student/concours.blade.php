@@ -263,13 +263,17 @@
                 ] as $concours)
                 <div class="col-md-6 col-lg-4 concours-item" data-category="{{ $concours['category'] }}">
                     <div class="card shadow-sm h-100">
-                        <div class="card-header bg-white border-0 pb-0">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <h6 class="fw-bold text-primary">{{ $concours['name'] }}</h6>
-                                <span class="badge bg-{{ $concours['color'] }}">{{ $concours['status'] }}</span>
-                            </div>
-                        </div>
-                        <div class="card-body">
+                        <div class="card-body position-relative">
+                            <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-2 rounded-circle favorite-btn" 
+                                    title="{{ in_array($concours['name'], $userFavorites ?? []) ? 'Retirer des favoris' : 'Ajouter aux favoris' }}" 
+                                    data-type="concours"
+                                    data-item-id="{{ $concours['name'] }}"
+                                    data-item-name="{{ $concours['name'] }}"
+                                    data-item-category="{{ $concours['category'] }}"
+                                    data-item-description="{{ $concours['description'] }}">
+                                <svg width="20" height="20" fill="{{ in_array($concours['name'], $userFavorites ?? []) ? '#dc3545' : '#6c757d' }}" class="{{ in_array($concours['name'], $userFavorites ?? []) ? 'text-danger' : 'text-secondary' }}" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            </button>
+                            <h6 class="fw-bold text-primary mb-3">{{ $concours['name'] }}</h6>
                             <p class="card-text text-muted small mb-3">{{ $concours['description'] }}</p>
                             
                             <div class="row mb-3">
@@ -293,10 +297,10 @@
                                 <div class="small text-muted">{{ $concours['places'] }}</div>
                             </div>
 
-                            <div class="mb-3">
+                                <div class="mb-3">
                                 <strong class="text-info">Conditions :</strong>
                                 <div class="small text-muted">{{ $concours['conditions'] }}</div>
-                            </div>
+                                </div>
 
                             <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-muted">Site : 
@@ -320,7 +324,7 @@
                                         <a href="https://www.myway.ac.ma/fr" target="_blank" class="text-primary">{{ $concours['site'] }}</a>
                                     @else
                                         <span class="text-muted">{{ $concours['site'] }}</span>
-                                    @endif
+                            @endif
                                 </small>
                                 <a href="#" class="btn btn-outline-primary btn-sm">Plus d'infos</a>
                             </div>
@@ -413,6 +417,54 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchConcours(searchTerm);
             }
         }, 300);
+    });
+
+    // Gestion des favoris
+    const favoriteButtons = document.querySelectorAll('.favorite-btn');
+    
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const type = this.getAttribute('data-type');
+            const itemId = this.getAttribute('data-item-id');
+            const itemName = this.getAttribute('data-item-name');
+            const itemCategory = this.getAttribute('data-item-category');
+            const itemDescription = this.getAttribute('data-item-description');
+            
+            // Envoyer la requête AJAX
+            fetch('/favorites/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    type: type,
+                    item_id: itemId,
+                    item_name: itemName,
+                    item_category: itemCategory,
+                    item_description: itemDescription
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'added') {
+                    this.querySelector('svg').style.fill = '#dc3545';
+                    this.title = 'Retirer des favoris';
+                    // Recharger la page pour mettre à jour le dashboard
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                } else {
+                    this.querySelector('svg').style.fill = '#6c757d';
+                    this.title = 'Ajouter aux favoris';
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+        });
     });
 });
 </script>

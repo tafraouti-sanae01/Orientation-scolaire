@@ -475,8 +475,14 @@
                 <div class="col-md-6 col-lg-4 ecole-item" data-category="{{ $ecole['category'] }}">
                     <div class="card shadow-sm h-100">
                         <div class="card-body position-relative">
-                            <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-2 rounded-circle" title="Ajouter aux favoris">
-                                <svg width="20" height="20" fill="currentColor" class="text-secondary" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                            <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-2 rounded-circle favorite-btn" 
+                                    title="{{ in_array($ecole['name'], $userFavorites ?? []) ? 'Retirer des favoris' : 'Ajouter aux favoris' }}" 
+                                    data-type="ecole"
+                                    data-item-id="{{ $ecole['name'] }}"
+                                    data-item-name="{{ $ecole['name'] }}"
+                                    data-item-category="{{ $ecole['category'] }}"
+                                    data-item-description="{{ $ecole['desc'] }}">
+                                <svg width="20" height="20" fill="{{ in_array($ecole['name'], $userFavorites ?? []) ? '#dc3545' : '#6c757d' }}" class="{{ in_array($ecole['name'], $userFavorites ?? []) ? 'text-danger' : 'text-secondary' }}" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                             </button>
                             <div class="mb-3 text-center">
                                 <img src="{{ $ecole['logo'] }}" alt="Logo école" style="max-height: 50px;">
@@ -593,6 +599,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialiser le compteur
     filterByCategory('all');
+
+    // Gestion des favoris
+    const favoriteButtons = document.querySelectorAll('.favorite-btn');
+    
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const type = this.getAttribute('data-type');
+            const itemId = this.getAttribute('data-item-id');
+            const itemName = this.getAttribute('data-item-name');
+            const itemCategory = this.getAttribute('data-item-category');
+            const itemDescription = this.getAttribute('data-item-description');
+            
+            // Envoyer la requête AJAX
+            fetch('/favorites/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    type: type,
+                    item_id: itemId,
+                    item_name: itemName,
+                    item_category: itemCategory,
+                    item_description: itemDescription
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'added') {
+                    this.querySelector('svg').style.fill = '#dc3545';
+                    this.title = 'Retirer des favoris';
+                    // Recharger la page pour mettre à jour le dashboard
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                } else {
+                    this.querySelector('svg').style.fill = '#6c757d';
+                    this.title = 'Ajouter aux favoris';
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+            });
+        });
+    });
 });
 </script>
 @endsection 
