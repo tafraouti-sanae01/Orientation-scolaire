@@ -69,11 +69,11 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h4 class="mb-1">{{ $totalFavorites }}</h4>
-                                    <p class="mb-0 small">Favoris total</p>
+                                    <h4 class="mb-1">{{ $totalConcours }}</h4>
+                                    <p class="mb-0 small">Concours actifs</p>
                                 </div>
                                 <div class="align-self-center">
-                                    <i class="fas fa-heart fa-2x opacity-75"></i>
+                                    <i class="fas fa-trophy fa-2x opacity-75"></i>
                                 </div>
                             </div>
                         </div>
@@ -84,11 +84,11 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h4 class="mb-1">15</h4>
-                                    <p class="mb-0 small">Concours actifs</p>
+                                    <h4 class="mb-1">{{ $totalEcoles }}</h4>
+                                    <p class="mb-0 small">Écoles disponibles</p>
                                 </div>
                                 <div class="align-self-center">
-                                    <i class="fas fa-trophy fa-2x opacity-75"></i>
+                                    <i class="fas fa-university fa-2x opacity-75"></i>
                                 </div>
                             </div>
                         </div>
@@ -199,12 +199,12 @@
                 <div class="col-md-4">
                     <div class="card shadow-sm">
                         <div class="card-header bg-white">
-                            <h5 class="fw-bold mb-0">📊 Statistiques</h5>
+                            <h5 class="fw-bold mb-0">📊 Statistiques rapides</h5>
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span>Étudiants actifs</span>
+                                    <span>Étudiants</span>
                                     <span class="fw-bold">{{ $totalStudents }}</span>
                                 </div>
                                 <div class="progress" style="height: 8px;">
@@ -213,29 +213,20 @@
                             </div>
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span>Favoris total</span>
-                                    <span class="fw-bold">{{ $totalFavorites }}</span>
+                                    <span>Concours</span>
+                                    <span class="fw-bold">{{ $totalConcours }}</span>
                                 </div>
                                 <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-success" style="width: 75%"></div>
+                                    <div class="progress-bar bg-success" style="width: 100%"></div>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between mb-1">
-                                    <span>Concours actifs</span>
-                                    <span class="fw-bold">15</span>
+                                    <span>Écoles</span>
+                                    <span class="fw-bold">{{ $totalEcoles }}</span>
                                 </div>
                                 <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-info" style="width: 60%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>Écoles disponibles</span>
-                                    <span class="fw-bold">40</span>
-                                </div>
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-warning" style="width: 80%"></div>
+                                    <div class="progress-bar bg-info" style="width: 100%"></div>
                                 </div>
                             </div>
                         </div>
@@ -247,9 +238,15 @@
 </div>
 
 <style>
+.card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
 .card:hover {
-    transform: translateY(-2px);
-    transition: transform 0.2s ease;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
 }
 
 .nav-link:hover {
@@ -264,4 +261,41 @@
     border-radius: 10px;
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation des cartes au survol
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Animation des statistiques
+    const counters = document.querySelectorAll('h4');
+    counters.forEach(counter => {
+        const target = parseInt(counter.textContent);
+        let current = 0;
+        const increment = target / 50;
+        
+        const updateCounter = () => {
+            if (current < target) {
+                current += increment;
+                counter.textContent = Math.ceil(current);
+                setTimeout(updateCounter, 20);
+            } else {
+                counter.textContent = target;
+            }
+        };
+        
+        updateCounter();
+    });
+});
+</script>
 @endsection 

@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Favorite;
+use App\Models\School;
 
 class StudentEcolesController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        $userFavorites = $user->favorites()->pluck('item_id')->toArray();
-        
-        return view('student.ecoles', compact('userFavorites'));
+        try {
+            $schools = School::all();
+            return view('student.ecoles', compact('schools'));
+        } catch (\Exception $e) {
+            // En cas d'erreur, retourner une vue avec un tableau vide
+            $schools = collect();
+            return view('student.ecoles', compact('schools'));
+        }
     }
 } 

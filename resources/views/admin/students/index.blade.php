@@ -123,9 +123,6 @@
                                             <a href="{{ route('admin.students.edit', $student->id) }}" class="btn btn-sm btn-outline-primary" title="Modifier">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-outline-info" title="Voir les favoris" onclick="showFavorites({{ $student->id }})">
-                                                <i class="fas fa-heart"></i>
-                                            </button>
                                             <form action="{{ route('admin.students.delete', $student->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
@@ -151,20 +148,7 @@
     </div>
 </div>
 
-<!-- Modal pour afficher les favoris -->
-<div class="modal fade" id="favoritesModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Favoris de l'étudiant</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="favoritesContent">
-                <!-- Le contenu sera chargé dynamiquement -->
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <style>
 .nav-link:hover {
@@ -212,22 +196,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function showFavorites(studentId) {
-    // Ici vous pouvez ajouter une requête AJAX pour récupérer les favoris de l'étudiant
-    const modal = new bootstrap.Modal(document.getElementById('favoritesModal'));
-    document.getElementById('favoritesContent').innerHTML = '<p class="text-center">Chargement des favoris...</p>';
-    modal.show();
-    
-    // Simuler le chargement des favoris
-    setTimeout(() => {
-        document.getElementById('favoritesContent').innerHTML = `
-            <div class="text-center">
-                <i class="fas fa-heart text-muted fa-3x mb-3"></i>
-                <h6 class="text-muted">Fonctionnalité en cours de développement</h6>
-                <p class="text-muted small">Les favoris de l'étudiant seront affichés ici</p>
-            </div>
-        `;
-    }, 1000);
-}
+
 </script>
 @endsection 

@@ -55,14 +55,63 @@
                 </div>
             @endif
 
+            <!-- Statistiques rapides -->
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-1">{{ $ecoles->total() }}</h4>
+                                    <small>Total écoles</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-university fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-1">{{ $ecoles->where('type', 'Public')->count() }}</h4>
+                                    <small>Écoles publiques</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-building fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-1">{{ $ecoles->where('fees', 'Gratuit')->count() }}</h4>
+                                    <small>Gratuites</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-graduation-cap fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Tableau des écoles -->
             <div class="card shadow-sm">
                 <div class="card-header bg-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="fw-bold mb-0">🏫 Liste des écoles</h5>
-                        <div class="d-flex gap-2">
-                            <input type="text" id="searchEcoles" class="form-control" placeholder="Rechercher une école..." style="width: 250px;">
-                        </div>
+                                            <div class="d-flex gap-2">
+                        <input type="text" id="searchEcoles" class="form-control" placeholder="Rechercher une école..." style="width: 250px;">
+                    </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -82,20 +131,20 @@
                             <tbody>
                                 @foreach($ecoles as $ecole)
                                 <tr>
-                                    <td>{{ $ecole['id'] }}</td>
+                                    <td>{{ $ecole->id }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
                                                 <i class="fas fa-university text-info"></i>
                                             </div>
                                             <div>
-                                                <div class="fw-bold">{{ $ecole['name'] }}</div>
-                                                <small class="text-muted">{{ Str::limit($ecole['desc'], 50) }}</small>
+                                                <div class="fw-bold">{{ $ecole->name }}</div>
+                                                <small class="text-muted">{{ Str::limit($ecole->description, 50) }}</small>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        @switch($ecole['category'])
+                                        @switch($ecole->category)
                                             @case('ingenieur')
                                                 <span class="badge bg-primary">Ingénierie</span>
                                                 @break
@@ -115,37 +164,34 @@
                                                 <span class="badge bg-secondary">Spécialisé</span>
                                                 @break
                                             @default
-                                                <span class="badge bg-light text-dark">{{ $ecole['category'] }}</span>
+                                                <span class="badge bg-light text-dark">{{ $ecole->category }}</span>
                                         @endswitch
                                     </td>
                                     <td>
-                                        @if($ecole['type'] == 'Public')
-                                            <span class="badge bg-success">{{ $ecole['type'] }}</span>
-                                        @elseif($ecole['type'] == 'Semi-public')
-                                            <span class="badge bg-warning">{{ $ecole['type'] }}</span>
+                                        @if($ecole->type == 'Public')
+                                            <span class="badge bg-success">{{ $ecole->type }}</span>
+                                        @elseif($ecole->type == 'Semi-public')
+                                            <span class="badge bg-warning">{{ $ecole->type }}</span>
                                         @else
-                                            <span class="badge bg-info">{{ $ecole['type'] }}</span>
+                                            <span class="badge bg-info">{{ $ecole->type }}</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <span class="badge bg-light text-dark">{{ Str::limit($ecole['universite'], 20) }}</span>
+                                        <span class="badge bg-light text-dark">{{ Str::limit($ecole->university, 20) }}</span>
                                     </td>
                                     <td>
-                                        @if($ecole['frais'] == 'Gratuit')
-                                            <span class="badge bg-success">{{ $ecole['frais'] }}</span>
+                                        @if($ecole->fees == 'Gratuit')
+                                            <span class="badge bg-success">{{ $ecole->fees }}</span>
                                         @else
-                                            <span class="badge bg-warning">{{ $ecole['frais'] }}</span>
+                                            <span class="badge bg-warning">{{ $ecole->fees }}</span>
                                         @endif
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('admin.ecoles.edit', $ecole['id']) }}" class="btn btn-sm btn-outline-primary" title="Modifier">
+                                            <a href="{{ route('admin.ecoles.edit', $ecole->id) }}" class="btn btn-sm btn-outline-primary" title="Modifier">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-outline-info" title="Voir détails" onclick="showDetails({{ $ecole['id'] }})">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <form action="{{ route('admin.ecoles.delete', $ecole['id']) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.ecoles.delete', $ecole->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette école ?')">
@@ -158,23 +204,65 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        
+                        <!-- Navigation améliorée -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <div class="text-muted">
+                                Affichage de {{ $ecoles->firstItem() ?? 0 }} à {{ $ecoles->lastItem() ?? 0 }} sur {{ $ecoles->total() }} résultats
+                            </div>
+                            <div class="d-flex gap-2">
+                                @if($ecoles->hasPages())
+                                    <nav aria-label="Navigation des écoles">
+                                        <ul class="pagination pagination-sm mb-0">
+                                            <!-- Bouton Précédent -->
+                                            @if($ecoles->onFirstPage())
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">
+                                                        <i class="fas fa-chevron-left"></i>
+                                                    </span>
+                                                </li>
+                                            @else
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{ $ecoles->previousPageUrl() }}">
+                                                        <i class="fas fa-chevron-left"></i>
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <!-- Pages numérotées -->
+                                            @foreach($ecoles->getUrlRange(1, $ecoles->lastPage()) as $page => $url)
+                                                @if($page == $ecoles->currentPage())
+                                                    <li class="page-item active">
+                                                        <span class="page-link">{{ $page }}</span>
+                                                    </li>
+                                                @else
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+
+                                            <!-- Bouton Suivant -->
+                                            @if($ecoles->hasMorePages())
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{ $ecoles->nextPageUrl() }}">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </a>
+                                                </li>
+                                            @else
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </span>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </nav>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal pour afficher les détails -->
-<div class="modal fade" id="detailsModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Détails de l'école</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="detailsContent">
-                <!-- Le contenu sera chargé dynamiquement -->
             </div>
         </div>
     </div>
@@ -204,6 +292,24 @@
     border-top-right-radius: 0.375rem !important;
     border-bottom-right-radius: 0.375rem !important;
 }
+
+.pagination .page-link {
+    color: #495057;
+    border-color: #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
 </style>
 
 <script>
@@ -225,22 +331,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-function showDetails(ecoleId) {
-    const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
-    document.getElementById('detailsContent').innerHTML = '<p class="text-center">Chargement des détails...</p>';
-    modal.show();
-    
-    // Simuler le chargement des détails
-    setTimeout(() => {
-        document.getElementById('detailsContent').innerHTML = `
-            <div class="text-center">
-                <i class="fas fa-info-circle text-muted fa-3x mb-3"></i>
-                <h6 class="text-muted">Fonctionnalité en cours de développement</h6>
-                <p class="text-muted small">Les détails complets de l'école seront affichés ici</p>
-            </div>
-        `;
-    }, 1000);
-}
 </script>
 @endsection 

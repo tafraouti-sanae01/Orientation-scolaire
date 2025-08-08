@@ -39,7 +39,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h2 class="fw-bold text-dark mb-1">Modifier l'école</h2>
-                    <p class="text-muted mb-0">Modifier les informations de {{ $ecole['name'] }}</p>
+                    <p class="text-muted mb-0">Modifier les informations de {{ $ecole->name }}</p>
                 </div>
                 <div class="text-end">
                     <a href="{{ route('admin.ecoles') }}" class="btn btn-outline-secondary">
@@ -65,7 +65,7 @@
                     <h5 class="fw-bold mb-0">🏫 Informations de l'école</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.ecoles.update', $ecole['id']) }}" method="POST">
+                    <form action="{{ route('admin.ecoles.update', $ecole->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         
@@ -76,34 +76,34 @@
                                 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nom de l'école *</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $ecole['name']) }}" required>
+                                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $ecole->name) }}" required>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Catégorie *</label>
                                     <select class="form-select" id="category" name="category" required>
                                         <option value="">Sélectionner une catégorie</option>
-                                        <option value="ingenieur" {{ old('category', $ecole['category']) == 'ingenieur' ? 'selected' : '' }}>Ingénierie</option>
-                                        <option value="commerce" {{ old('category', $ecole['category']) == 'commerce' ? 'selected' : '' }}>Commerce</option>
-                                        <option value="sante" {{ old('category', $ecole['category']) == 'sante' ? 'selected' : '' }}>Santé</option>
-                                        <option value="architecture" {{ old('category', $ecole['category']) == 'architecture' ? 'selected' : '' }}>Architecture</option>
-                                        <option value="technique" {{ old('category', $ecole['category']) == 'technique' ? 'selected' : '' }}>Technique</option>
-                                        <option value="specialise" {{ old('category', $ecole['category']) == 'specialise' ? 'selected' : '' }}>Spécialisé</option>
+                                        <option value="ingenieur" {{ old('category', $ecole->category) == 'ingenieur' ? 'selected' : '' }}>Ingénierie</option>
+                                        <option value="commerce" {{ old('category', $ecole->category) == 'commerce' ? 'selected' : '' }}>Commerce</option>
+                                        <option value="sante" {{ old('category', $ecole->category) == 'sante' ? 'selected' : '' }}>Santé</option>
+                                        <option value="architecture" {{ old('category', $ecole->category) == 'architecture' ? 'selected' : '' }}>Architecture</option>
+                                        <option value="technique" {{ old('category', $ecole->category) == 'technique' ? 'selected' : '' }}>Technique</option>
+                                        <option value="specialise" {{ old('category', $ecole->category) == 'specialise' ? 'selected' : '' }}>Spécialisé</option>
                                     </select>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="desc" class="form-label">Description *</label>
-                                    <textarea class="form-control" id="desc" name="desc" rows="3" required>{{ old('desc', $ecole['desc']) }}</textarea>
+                                    <textarea class="form-control" id="desc" name="desc" rows="3" required>{{ old('desc', $ecole->description) }}</textarea>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="type" class="form-label">Type d'établissement *</label>
                                     <select class="form-select" id="type" name="type" required>
                                         <option value="">Sélectionner un type</option>
-                                        <option value="Public" {{ old('type', $ecole['type']) == 'Public' ? 'selected' : '' }}>Public</option>
-                                        <option value="Semi-public" {{ old('type', $ecole['type']) == 'Semi-public' ? 'selected' : '' }}>Semi-public</option>
-                                        <option value="Privé" {{ old('type', $ecole['type']) == 'Privé' ? 'selected' : '' }}>Privé</option>
+                                        <option value="Public" {{ old('type', $ecole->type) == 'Public' ? 'selected' : '' }}>Public</option>
+                                        <option value="Semi-public" {{ old('type', $ecole->type) == 'Semi-public' ? 'selected' : '' }}>Semi-public</option>
+                                        <option value="Privé" {{ old('type', $ecole->type) == 'Privé' ? 'selected' : '' }}>Privé</option>
                                     </select>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@
                                 
                                 <div class="mb-3">
                                     <label for="universite" class="form-label">Université *</label>
-                                    <input type="text" class="form-control" id="universite" name="universite" value="{{ old('universite', $ecole['universite']) }}" required>
+                                    <input type="text" class="form-control" id="universite" name="universite" value="{{ old('universite', $ecole->university) }}" required>
                                     <small class="text-muted">Ex: Université Mohammed V, Multiples universités</small>
                                 </div>
                                 
@@ -122,21 +122,21 @@
                                     <label for="frais" class="form-label">Frais de scolarité *</label>
                                     <select class="form-select" id="frais" name="frais" required>
                                         <option value="">Sélectionner</option>
-                                        <option value="Gratuit" {{ old('frais', $ecole['frais']) == 'Gratuit' ? 'selected' : '' }}>Gratuit</option>
-                                        <option value="Payant" {{ old('frais', $ecole['frais']) == 'Payant' ? 'selected' : '' }}>Payant</option>
-                                        <option value="Variable" {{ old('frais', $ecole['frais']) == 'Variable' ? 'selected' : '' }}>Variable</option>
+                                        <option value="Gratuit" {{ old('frais', $ecole->fees) == 'Gratuit' ? 'selected' : '' }}>Gratuit</option>
+                                        <option value="Payant" {{ old('frais', $ecole->fees) == 'Payant' ? 'selected' : '' }}>Payant</option>
+                                        <option value="Variable" {{ old('frais', $ecole->fees) == 'Variable' ? 'selected' : '' }}>Variable</option>
                                     </select>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="seuils" class="form-label">Seuils d'admission *</label>
-                                    <input type="text" class="form-control" id="seuils" name="seuils" value="{{ old('seuils', $ecole['seuils']) }}" required>
+                                    <input type="text" class="form-control" id="seuils" name="seuils" value="{{ old('seuils', $ecole->seuils) }}" required>
                                     <small class="text-muted">Ex: SM ≥12, PC ≥14.5, SVT/Tech ≥15</small>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="logo" class="form-label">Logo de l'école</label>
-                                    <input type="text" class="form-control" id="logo" name="logo" value="{{ old('logo', $ecole['logo'] ?? '') }}">
+                                    <input type="text" class="form-control" id="logo" name="logo" value="{{ old('logo', $ecole->logo ?? '') }}">
                                     <small class="text-muted">Nom du fichier image (ex: ensa.png)</small>
                                 </div>
                             </div>

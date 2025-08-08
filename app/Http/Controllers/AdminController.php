@@ -15,17 +15,18 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        $totalStudents = User::count();
-        $totalFavorites = Favorite::count();
-        $recentStudents = User::latest()->take(5)->get();
+        $totalStudents = User::where('email', '!=', 'admin@gmail.com')->count();
+        $totalConcours = \App\Models\Concours::count();
+        $totalEcoles = \App\Models\School::count();
+        $recentStudents = User::where('email', '!=', 'admin@gmail.com')->latest()->take(5)->get();
         
-        return view('admin.dashboard', compact('totalStudents', 'totalFavorites', 'recentStudents'));
+        return view('admin.dashboard', compact('totalStudents', 'totalConcours', 'totalEcoles', 'recentStudents'));
     }
 
     // Gestion des étudiants
     public function students()
     {
-        $students = User::latest()->paginate(10);
+        $students = User::where('email', '!=', 'admin@gmail.com')->latest()->paginate(10);
         return view('admin.students.index', compact('students'));
     }
 
@@ -69,22 +70,7 @@ class AdminController extends Controller
     // Gestion des concours
     public function concours()
     {
-        $concours = [
-            [
-                'id' => 1,
-                'name' => 'CNC - Grandes Écoles d\'Ingénieurs',
-                'category' => 'ingenieur',
-                'inscription' => '20 juin - 10 juillet 2025',
-                'epreuve' => 'Mai 2025',
-                'description' => 'Concours National Commun - Réservé aux bacheliers de classes préparatoires (MP, TSI, PSI...)',
-                'filières' => 'EMI, ENSIAS, ENSEM, IAV, INPT, INSEA, ENSA...',
-                'places' => '185 MP, 44 TSI, 37 PSI (ENSIAS)',
-                'conditions' => 'Classes préparatoires MP, TSI, PSI',
-                'site' => 'amci.ma'
-            ],
-            // Ajoutez d'autres concours ici
-        ];
-        
+        $concours = \App\Models\Concours::latest()->paginate(10);
         return view('admin.concours.index', compact('concours'));
     }
 
@@ -101,34 +87,18 @@ class AdminController extends Controller
             'inscription' => 'required|string|max:255',
             'epreuve' => 'required|string|max:255',
             'description' => 'required|string',
-            'filières' => 'required|string',
+            'filieres' => 'required|string',
             'places' => 'required|string',
             'conditions' => 'required|string',
             'site' => 'required|string|max:255',
         ]);
-
-        // Ici vous pouvez ajouter la logique pour sauvegarder dans la base de données
-        // Pour l'instant, on simule l'ajout
-        
+        \App\Models\Concours::create($request->only(['name','category','inscription','epreuve','description','filieres','places','conditions','site','status','color']));
         return redirect()->route('admin.concours')->with('success', 'Concours ajouté avec succès');
     }
 
     public function editConcours($id)
     {
-        // Simuler la récupération d'un concours
-        $concours = [
-            'id' => $id,
-            'name' => 'CNC - Grandes Écoles d\'Ingénieurs',
-            'category' => 'ingenieur',
-            'inscription' => '20 juin - 10 juillet 2025',
-            'epreuve' => 'Mai 2025',
-            'description' => 'Concours National Commun - Réservé aux bacheliers de classes préparatoires (MP, TSI, PSI...)',
-            'filières' => 'EMI, ENSIAS, ENSEM, IAV, INPT, INSEA, ENSA...',
-            'places' => '185 MP, 44 TSI, 37 PSI (ENSIAS)',
-            'conditions' => 'Classes préparatoires MP, TSI, PSI',
-            'site' => 'amci.ma'
-        ];
-        
+        $concours = \App\Models\Concours::findOrFail($id);
         return view('admin.concours.edit', compact('concours'));
     }
 
@@ -140,41 +110,27 @@ class AdminController extends Controller
             'inscription' => 'required|string|max:255',
             'epreuve' => 'required|string|max:255',
             'description' => 'required|string',
-            'filières' => 'required|string',
+            'filieres' => 'required|string',
             'places' => 'required|string',
             'conditions' => 'required|string',
             'site' => 'required|string|max:255',
         ]);
-
-        // Ici vous pouvez ajouter la logique pour mettre à jour dans la base de données
-        
+        $concours = \App\Models\Concours::findOrFail($id);
+        $concours->update($request->only(['name','category','inscription','epreuve','description','filieres','places','conditions','site','status','color']));
         return redirect()->route('admin.concours')->with('success', 'Concours mis à jour avec succès');
     }
 
     public function deleteConcours($id)
     {
-        // Ici vous pouvez ajouter la logique pour supprimer de la base de données
-        
+        $concours = \App\Models\Concours::findOrFail($id);
+        $concours->delete();
         return redirect()->route('admin.concours')->with('success', 'Concours supprimé avec succès');
     }
 
     // Gestion des écoles
     public function ecoles()
     {
-        $ecoles = [
-            [
-                'id' => 1,
-                'name' => 'ENSA - École Nationale des Sciences Appliquées',
-                'category' => 'ingenieur',
-                'desc' => 'Formation d\'ingénieurs en sciences appliquées. Institution reconnue pour l\'excellence académique et l\'employabilité de ses diplômés.',
-                'type' => 'Public',
-                'universite' => 'Multiples universités',
-                'frais' => 'Gratuit',
-                'seuils' => 'SM ≥12, PC ≥14.5, SVT/Tech ≥15'
-            ],
-            // Ajoutez d'autres écoles ici
-        ];
-        
+        $ecoles = \App\Models\School::latest()->paginate(10);
         return view('admin.ecoles.index', compact('ecoles'));
     }
 
@@ -194,26 +150,22 @@ class AdminController extends Controller
             'frais' => 'required|string|max:255',
             'seuils' => 'required|string',
         ]);
-
-        // Ici vous pouvez ajouter la logique pour sauvegarder dans la base de données
-        
+        \App\Models\School::create([
+            'name' => $request->name,
+            'logo' => $request->logo,
+            'description' => $request->desc,
+            'type' => $request->type,
+            'university' => $request->universite,
+            'fees' => $request->frais,
+            'category' => $request->category,
+            'seuils' => $request->seuils,
+        ]);
         return redirect()->route('admin.ecoles')->with('success', 'École ajoutée avec succès');
     }
 
     public function editEcole($id)
     {
-        // Simuler la récupération d'une école
-        $ecole = [
-            'id' => $id,
-            'name' => 'ENSA - École Nationale des Sciences Appliquées',
-            'category' => 'ingenieur',
-            'desc' => 'Formation d\'ingénieurs en sciences appliquées. Institution reconnue pour l\'excellence académique et l\'employabilité de ses diplômés.',
-            'type' => 'Public',
-            'universite' => 'Multiples universités',
-            'frais' => 'Gratuit',
-            'seuils' => 'SM ≥12, PC ≥14.5, SVT/Tech ≥15'
-        ];
-        
+        $ecole = \App\Models\School::findOrFail($id);
         return view('admin.ecoles.edit', compact('ecole'));
     }
 
@@ -229,15 +181,24 @@ class AdminController extends Controller
             'seuils' => 'required|string',
         ]);
 
-        // Ici vous pouvez ajouter la logique pour mettre à jour dans la base de données
-        
+        $ecole = \App\Models\School::findOrFail($id);
+        $ecole->update([
+            'name' => $request->name,
+            'logo' => $request->logo,
+            'description' => $request->desc,
+            'type' => $request->type,
+            'university' => $request->universite,
+            'fees' => $request->frais,
+            'category' => $request->category,
+            'seuils' => $request->seuils,
+        ]);
         return redirect()->route('admin.ecoles')->with('success', 'École mise à jour avec succès');
     }
 
     public function deleteEcole($id)
     {
-        // Ici vous pouvez ajouter la logique pour supprimer de la base de données
-        
+        $ecole = \App\Models\School::findOrFail($id);
+        $ecole->delete();
         return redirect()->route('admin.ecoles')->with('success', 'École supprimée avec succès');
     }
 } 

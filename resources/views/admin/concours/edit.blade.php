@@ -39,7 +39,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h2 class="fw-bold text-dark mb-1">Modifier le concours</h2>
-                    <p class="text-muted mb-0">Modifier les informations de {{ $concours['name'] }}</p>
+                    <p class="text-muted mb-0">Modifier les informations de {{ $concours->name }}</p>
                 </div>
                 <div class="text-end">
                     <a href="{{ route('admin.concours') }}" class="btn btn-outline-secondary">
@@ -65,7 +65,7 @@
                     <h5 class="fw-bold mb-0">🏆 Informations du concours</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.concours.update', $concours['id']) }}" method="POST">
+                    <form action="{{ route('admin.concours.update', $concours->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         
@@ -76,30 +76,30 @@
                                 
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nom du concours *</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $concours['name']) }}" required>
+                                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $concours->name) }}" required>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Catégorie *</label>
                                     <select class="form-select" id="category" name="category" required>
                                         <option value="">Sélectionner une catégorie</option>
-                                        <option value="ingenieur" {{ old('category', $concours['category']) == 'ingenieur' ? 'selected' : '' }}>Ingénierie</option>
-                                        <option value="commerce" {{ old('category', $concours['category']) == 'commerce' ? 'selected' : '' }}>Commerce</option>
-                                        <option value="sante" {{ old('category', $concours['category']) == 'sante' ? 'selected' : '' }}>Santé</option>
-                                        <option value="education" {{ old('category', $concours['category']) == 'education' ? 'selected' : '' }}>Éducation</option>
-                                        <option value="formation" {{ old('category', $concours['category']) == 'formation' ? 'selected' : '' }}>Formation Professionnelle</option>
-                                        <option value="specialise" {{ old('category', $concours['category']) == 'specialise' ? 'selected' : '' }}>Instituts Spécialisés</option>
+                                        <option value="ingenieur" {{ old('category', $concours->category) == 'ingenieur' ? 'selected' : '' }}>Ingénierie</option>
+                                        <option value="commerce" {{ old('category', $concours->category) == 'commerce' ? 'selected' : '' }}>Commerce</option>
+                                        <option value="sante" {{ old('category', $concours->category) == 'sante' ? 'selected' : '' }}>Santé</option>
+                                        <option value="education" {{ old('category', $concours->category) == 'education' ? 'selected' : '' }}>Éducation</option>
+                                        <option value="formation" {{ old('category', $concours->category) == 'formation' ? 'selected' : '' }}>Formation Professionnelle</option>
+                                        <option value="specialise" {{ old('category', $concours->category) == 'specialise' ? 'selected' : '' }}>Instituts Spécialisés</option>
                                     </select>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description *</label>
-                                    <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $concours['description']) }}</textarea>
+                                    <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $concours->description) }}</textarea>
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="filières" class="form-label">Filières *</label>
-                                    <input type="text" class="form-control" id="filières" name="filières" value="{{ old('filières', $concours['filières']) }}" required>
+                                    <label for="filieres" class="form-label">Filières *</label>
+                                    <input type="text" class="form-control" id="filieres" name="filieres" value="{{ old('filieres', $concours->filieres) }}" required>
                                     <small class="text-muted">Ex: EMI, ENSIAS, ENSEM, IAV, INPT, INSEA, ENSA...</small>
                                 </div>
                             </div>
@@ -110,31 +110,31 @@
                                 
                                 <div class="mb-3">
                                     <label for="inscription" class="form-label">Période d'inscription *</label>
-                                    <input type="text" class="form-control" id="inscription" name="inscription" value="{{ old('inscription', $concours['inscription']) }}" required>
+                                    <input type="text" class="form-control" id="inscription" name="inscription" value="{{ old('inscription', $concours->inscription) }}" required>
                                     <small class="text-muted">Ex: 20 juin - 10 juillet 2025</small>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="epreuve" class="form-label">Date des épreuves *</label>
-                                    <input type="text" class="form-control" id="epreuve" name="epreuve" value="{{ old('epreuve', $concours['epreuve']) }}" required>
+                                    <input type="text" class="form-control" id="epreuve" name="epreuve" value="{{ old('epreuve', $concours->epreuve) }}" required>
                                     <small class="text-muted">Ex: Mai 2025 ou 21 juillet 2025</small>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="places" class="form-label">Nombre de places *</label>
-                                    <input type="text" class="form-control" id="places" name="places" value="{{ old('places', $concours['places']) }}" required>
+                                    <input type="text" class="form-control" id="places" name="places" value="{{ old('places', $concours->places) }}" required>
                                     <small class="text-muted">Ex: 185 MP, 44 TSI, 37 PSI (ENSIAS)</small>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="conditions" class="form-label">Conditions d'accès *</label>
-                                    <textarea class="form-control" id="conditions" name="conditions" rows="2" required>{{ old('conditions', $concours['conditions']) }}</textarea>
+                                    <textarea class="form-control" id="conditions" name="conditions" rows="2" required>{{ old('conditions', $concours->conditions) }}</textarea>
                                     <small class="text-muted">Ex: Classes préparatoires MP, TSI, PSI</small>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="site" class="form-label">Site web *</label>
-                                    <input type="text" class="form-control" id="site" name="site" value="{{ old('site', $concours['site']) }}" required>
+                                    <input type="text" class="form-control" id="site" name="site" value="{{ old('site', $concours->site) }}" required>
                                     <small class="text-muted">Ex: amci.ma, cursussup.gov.ma</small>
                                 </div>
                             </div>
@@ -144,17 +144,7 @@
                         
                         <!-- Actions -->
                         <div class="row">
-                            <div class="col-md-6">
-                                <h6 class="fw-bold text-info mb-3">Statut</h6>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="status" name="status" value="active" checked>
-                                    <label class="form-check-label" for="status">
-                                        Concours actif
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <h6 class="fw-bold text-warning mb-3">Actions</h6>
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-primary">

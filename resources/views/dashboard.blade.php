@@ -24,19 +24,18 @@
                     <p class="text-muted mb-0">Bienvenue dans votre espace d'orientation personnalisé</p>
                 </div>
                 <div class="text-end">
-                    <div class="badge bg-success p-2">Profil complété</div>
-                    <p class="text-muted small mb-0 mt-1">Dernière connexion: {{ now()->format('d/m/Y H:i') }}</p>
+                    <p class="text-muted small mb-0">Dernière connexion: {{ now()->format('d/m/Y H:i') }}</p>
                 </div>
             </div>
 
             <!-- Statistiques rapides -->
             <div class="row mb-4">
-                <div class="col-md-3 mb-3">
+                <div class="col-md-6 mb-3">
                     <div class="card bg-gradient-primary text-white">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h4 class="mb-1">40</h4>
+                                    <h4 class="mb-1">{{ $totalSchools }}</h4>
                                     <p class="mb-0 small">Écoles disponibles</p>
                                 </div>
                                 <div class="align-self-center">
@@ -46,46 +45,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-md-6 mb-3">
                     <div class="card bg-gradient-success text-white">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h4 class="mb-1">15</h4>
+                                    <h4 class="mb-1">{{ $totalConcours }}</h4>
                                     <p class="mb-0 small">Concours actifs</p>
                                 </div>
                                 <div class="align-self-center">
                                     <i class="fas fa-trophy fa-2x opacity-75"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card bg-gradient-info text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 class="mb-1">{{ Auth::user()->profile_completed ? '100%' : '60%' }}</h4>
-                                    <p class="mb-0 small">Profil complété</p>
-                                </div>
-                                <div class="align-self-center">
-                                    <i class="fas fa-user-check fa-2x opacity-75"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="card bg-gradient-warning text-white">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h4 class="mb-1">7</h4>
-                                    <p class="mb-0 small">Jours restants</p>
-                                </div>
-                                <div class="align-self-center">
-                                    <i class="fas fa-clock fa-2x opacity-75"></i>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +74,7 @@
                                         <i class="fas fa-university fa-2x text-primary"></i>
                                     </div>
                                     <h6 class="fw-bold">Découvrir les écoles</h6>
-                                    <p class="text-muted small mb-0">Explorez 40+ établissements</p>
+                                    <p class="text-muted small mb-0">Explorez {{ $totalSchools }}+ établissements</p>
                                 </div>
                             </a>
                         </div>
@@ -116,7 +85,7 @@
                                         <i class="fas fa-trophy fa-2x text-success"></i>
                                     </div>
                                     <h6 class="fw-bold">Voir les concours</h6>
-                                    <p class="text-muted small mb-0">15 concours disponibles</p>
+                                    <p class="text-muted small mb-0">{{ $totalConcours }} concours disponibles</p>
                                 </div>
                             </a>
                         </div>
@@ -154,51 +123,26 @@
                             <h5 class="fw-bold mb-0">📊 Statistiques par domaine</h5>
                         </div>
                         <div class="card-body">
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>Ingénierie</span>
-                                    <span class="fw-bold">12 écoles</span>
+                            @foreach($categoryStats as $category => $stats)
+                                @if($stats['count'] > 0)
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span>{{ $stats['name'] }}</span>
+                                        <span class="fw-bold">{{ $stats['count'] }} école{{ $stats['count'] > 1 ? 's' : '' }}</span>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-{{ $loop->index % 6 == 0 ? 'primary' : ($loop->index % 6 == 1 ? 'success' : ($loop->index % 6 == 2 ? 'danger' : ($loop->index % 6 == 3 ? 'warning' : ($loop->index % 6 == 4 ? 'info' : 'secondary')))) }}" style="width: {{ $stats['percentage'] }}%"></div>
+                                    </div>
                                 </div>
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-primary" style="width: 30%"></div>
+                                @endif
+                            @endforeach
+                            
+                            @if($totalSchools == 0)
+                                <div class="text-center py-3">
+                                    <i class="fas fa-university text-muted fa-2x mb-2"></i>
+                                    <p class="text-muted mb-0">Aucune école disponible pour le moment</p>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>Commerce</span>
-                                    <span class="fw-bold">8 écoles</span>
-                                </div>
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-success" style="width: 20%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>Santé</span>
-                                    <span class="fw-bold">6 écoles</span>
-                                </div>
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-danger" style="width: 15%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>Architecture</span>
-                                    <span class="fw-bold">4 écoles</span>
-                                </div>
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-warning" style="width: 10%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>Autres</span>
-                                    <span class="fw-bold">10 écoles</span>
-                                </div>
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-info" style="width: 25%"></div>
-                                </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -393,6 +337,62 @@ document.addEventListener('DOMContentLoaded', function() {
         
         updateCounter();
     });
+
+    // Fonction pour mettre à jour les favoris
+    function updateFavorites() {
+        fetch('/favorites')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const container = document.getElementById('favorites-container');
+                    const favorites = data.favorites.slice(0, 4); // Prendre seulement les 4 premiers
+                    
+                    if (favorites.length > 0) {
+                        let html = '<div class="row g-3">';
+                        favorites.forEach(favorite => {
+                            html += `
+                                <div class="col-md-6">
+                                    <div class="border rounded p-3">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-heart text-danger me-2"></i>
+                                            <h6 class="fw-bold mb-0">${favorite.item_name}</h6>
+                                        </div>
+                                        <p class="text-muted small mb-2">
+                                            ${favorite.type == 'ecole' ? 'École' : 'Concours'} ajouté à vos favoris
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-primary">${favorite.item_category.charAt(0).toUpperCase() + favorite.item_category.slice(1)}</span>
+                                            <small class="text-muted">${favorite.item_description.substring(0, 30)}${favorite.item_description.length > 30 ? '...' : ''}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += '</div>';
+                        container.innerHTML = html;
+                    } else {
+                        container.innerHTML = `
+                            <div class="text-center py-4">
+                                <i class="fas fa-heart text-muted fa-3x mb-3"></i>
+                                <h6 class="text-muted">Aucun favori pour le moment</h6>
+                                <p class="text-muted small">Ajoutez des écoles et concours à vos favoris pour les voir ici</p>
+                            </div>
+                        `;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la mise à jour des favoris:', error);
+            });
+    }
+
+    // Écouter les événements de mise à jour des favoris
+    window.addEventListener('favoriteUpdated', function() {
+        updateFavorites();
+    });
+
+    // Mettre à jour les favoris toutes les 30 secondes
+    setInterval(updateFavorites, 30000);
 });
 </script>
 @endsection

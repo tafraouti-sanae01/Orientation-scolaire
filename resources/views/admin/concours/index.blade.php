@@ -82,20 +82,20 @@
                             <tbody>
                                 @foreach($concours as $concoursItem)
                                 <tr>
-                                    <td>{{ $concoursItem['id'] }}</td>
+                                    <td>{{ $concoursItem->id }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
                                                 <i class="fas fa-trophy text-success"></i>
                                             </div>
                                             <div>
-                                                <div class="fw-bold">{{ $concoursItem['name'] }}</div>
-                                                <small class="text-muted">{{ Str::limit($concoursItem['description'], 50) }}</small>
+                                                <div class="fw-bold">{{ $concoursItem->name }}</div>
+                                                <small class="text-muted">{{ Str::limit($concoursItem->description, 50) }}</small>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        @switch($concoursItem['category'])
+                                        @switch($concoursItem->category)
                                             @case('ingenieur')
                                                 <span class="badge bg-primary">Ingénierie</span>
                                                 @break
@@ -115,33 +115,28 @@
                                                 <span class="badge bg-secondary">Spécialisé</span>
                                                 @break
                                             @default
-                                                <span class="badge bg-light text-dark">{{ $concoursItem['category'] }}</span>
+                                                <span class="badge bg-light text-dark">{{ $concoursItem->category }}</span>
                                         @endswitch
                                     </td>
                                     <td>
-                                        <span class="badge bg-light text-dark">{{ $concoursItem['inscription'] }}</span>
+                                        <span class="badge bg-light text-dark">{{ $concoursItem->inscription }}</span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-warning">{{ $concoursItem['epreuve'] }}</span>
+                                        <span class="badge bg-warning">{{ $concoursItem->epreuve }}</span>
                                     </td>
                                     <td>
-                                        @if($concoursItem['site'] == 'amci.ma')
-                                            <a href="https://www.amci.ma" target="_blank" class="text-primary">{{ $concoursItem['site'] }}</a>
-                                        @elseif($concoursItem['site'] == 'cursussup.gov.ma')
-                                            <a href="https://www.cursussup.gov.ma" target="_blank" class="text-primary">{{ $concoursItem['site'] }}</a>
+                                        @if(Str::startsWith($concoursItem->site, 'http'))
+                                            <a href="{{ $concoursItem->site }}" target="_blank" class="text-primary">{{ parse_url($concoursItem->site, PHP_URL_HOST) ?? $concoursItem->site }}</a>
                                         @else
-                                            <span class="text-muted">{{ $concoursItem['site'] }}</span>
+                                            <span class="text-muted">{{ $concoursItem->site }}</span>
                                         @endif
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('admin.concours.edit', $concoursItem['id']) }}" class="btn btn-sm btn-outline-primary" title="Modifier">
+                                            <a href="{{ route('admin.concours.edit', $concoursItem->id) }}" class="btn btn-sm btn-outline-primary" title="Modifier">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-outline-info" title="Voir détails" onclick="showDetails({{ $concoursItem['id'] }})">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <form action="{{ route('admin.concours.delete', $concoursItem['id']) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.concours.delete', $concoursItem->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce concours ?')">
@@ -154,6 +149,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="mt-3 d-flex justify-content-center">
+                            {{ $concours->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,20 +159,7 @@
     </div>
 </div>
 
-<!-- Modal pour afficher les détails -->
-<div class="modal fade" id="detailsModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Détails du concours</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="detailsContent">
-                <!-- Le contenu sera chargé dynamiquement -->
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <style>
 .nav-link:hover {
@@ -222,21 +207,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function showDetails(concoursId) {
-    const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
-    document.getElementById('detailsContent').innerHTML = '<p class="text-center">Chargement des détails...</p>';
-    modal.show();
-    
-    // Simuler le chargement des détails
-    setTimeout(() => {
-        document.getElementById('detailsContent').innerHTML = `
-            <div class="text-center">
-                <i class="fas fa-info-circle text-muted fa-3x mb-3"></i>
-                <h6 class="text-muted">Fonctionnalité en cours de développement</h6>
-                <p class="text-muted small">Les détails complets du concours seront affichés ici</p>
-            </div>
-        `;
-    }, 1000);
-}
+
 </script>
 @endsection 

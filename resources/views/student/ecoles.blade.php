@@ -14,10 +14,14 @@
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('student.parametres') ? 'active text-primary' : '' }}" href="{{ route('student.parametres') }}">Paramètres</a></li>
             </ul>
         </div>
+        
         <!-- Contenu principal -->
         <div class="col-md-10 px-4 py-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold">ÉCOLES ET UNIVERSITÉS</h4>
+                <div>
+                    <h4 class="fw-bold mb-1">ÉCOLES ET UNIVERSITÉS</h4>
+                    <p class="text-muted mb-0">Découvrez les meilleures écoles et universités du Maroc</p>
+                </div>
                 <div>
                     <input type="text" id="searchEcoles" class="form-control" placeholder="Rechercher une école..." style="width: 300px;">
                 </div>
@@ -40,492 +44,232 @@
             
             <!-- Grille des écoles -->
             <div class="row g-4">
-                @foreach([
-                    [
-                        'logo' => asset('images/ensa.png'),
-                        'category' => 'ingenieur',
-                        'name' => "ENSA - École Nationale des Sciences Appliquées",
-                        'desc' => "Formation d'ingénieurs en sciences appliquées. Institution reconnue pour l'excellence académique et l'employabilité de ses diplômés.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "SM ≥12, PC ≥14.5, SVT/Tech ≥15"
-                    ],
-                    [
-                        'logo' => asset('images/encg.png'),
-                        'category' => 'commerce',
-                        'name' => "ENCG - École Nationale de Commerce et de Gestion",
-                        'desc' => "Formation en commerce et gestion. Institution reconnue pour son excellence dans la formation des cadres commerciaux et gestionnaires.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "SM/Eco ≥12, PC/SVT ≥14"
-                    ],
-                    [
-                        'logo' => asset('images/ensam.png'),
-                        'category' => 'ingenieur',
-                        'name' => "ENSAM - École Nationale Supérieure d'Arts et Métiers",
-                        'desc' => "Formation d'ingénieurs en arts et métiers. Institution avant-gardiste dans la formation des ingénieurs spécialisés.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "SM/Tech ≥12.25, PC/SVT/Pro ≥16.25"
-                    ],
-                    [
-                        'logo' => asset('images/ena.png'),
-                        'category' => 'architecture',
-                        'name' => "ENA - École Nationale d'Architecture",
-                        'desc' => "Formation en architecture. École d'excellence dans la formation des architectes et urbanistes de demain.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Rabat: 14.36, Tétouan: 14.45, Oujda: 13.95"
-                    ],
-                    [
-                        'logo' => asset('images/fmpc.png'),
-                        'category' => 'sante',
-                        'name' => "FMP - Faculté de Médecine et Pharmacie",
-                        'desc' => "Formation en médecine, pharmacie et médecine dentaire. Institution reconnue pour l'excellence de sa formation médicale.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "≈12/20 (75% national + 25% régional)"
-                    ],
-                    [
-                        'logo' => asset('images/ispits.png'),
-                        'category' => 'sante',
-                        'name' => "ISPITS - Instituts Supérieurs des Professions Infirmières et Techniques de Santé",
-                        'desc' => "Formation paramédicale. Institution dédiée à la formation des professionnels de santé paramédicaux.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/isit.png'),
-                        'category' => 'specialise',
-                        'name' => "ISIT - Institut Supérieur International de Tourisme",
-                        'desc' => "Formation en tourisme international. Institution spécialisée dans la formation des professionnels du tourisme.",
-                        'type' => "Public",
-                        'universite' => "Université Abdelmalek Essaâdi",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/isic.png'),
-                        'category' => 'specialise',
-                        'name' => "ISIC - Institut Supérieur de l'Information et de la Communication",
-                        'desc' => "Formation en information et communication. Institution reconnue pour l'excellence de sa formation en communication.",
-                        'type' => "Public",
-                        'universite' => "Université Mohammed V",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/ismac.png'),
-                        'category' => 'specialise',
-                        'name' => "ISMAC - Institut Supérieur des Métiers de l'Audiovisuel et du Cinéma",
-                        'desc' => "Formation en audiovisuel et cinéma. Institution spécialisée dans la formation des professionnels de l'audiovisuel.",
-                        'type' => "Public",
-                        'universite' => "Université Mohammed V",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/inau.png'),
-                        'category' => 'architecture',
-                        'name' => "INAU - Institut National d'Aménagement et d'Urbanisme",
-                        'desc' => "Formation en urbanisme et aménagement. Institution d'excellence dans la formation des urbanistes.",
-                        'type' => "Public",
-                        'universite' => "Université Mohammed V",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/istp.png'),
-                        'category' => 'technique',
-                        'name' => "ISTP - Institut Supérieur des Travaux Publics",
-                        'desc' => "Formation en travaux publics. Institution spécialisée dans la formation des techniciens des travaux publics.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/ensck.png'),
-                        'category' => 'technique',
-                        'name' => "ENSCK - École Nationale Supérieure de Chimie de Kénitra",
-                        'desc' => "Formation en chimie. Institution reconnue pour l'excellence de sa formation en sciences chimiques.",
-                        'type' => "Public",
-                        'universite' => "Université Ibn Tofail",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/iss.png'),
-                        'category' => 'specialise',
-                        'name' => "ISS - Institut des Sciences du Sport",
-                        'desc' => "Formation en sciences du sport. Institution spécialisée dans la formation des professionnels du sport.",
-                        'type' => "Public",
-                        'universite' => "Université Sidi Mohammed Ben Abdellah",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/ims.png'),
-                        'category' => 'specialise',
-                        'name' => "IMS - Institut des Métiers du Sport",
-                        'desc' => "Formation en métiers du sport. Institution dédiée à la formation des professionnels du sport et de l'animation.",
-                        'type' => "Public",
-                        'universite' => "Université Ibn Tofail",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/imm.png'),
-                        'category' => 'technique',
-                        'name' => "IMM - Institut des Mines de Marrakech",
-                        'desc' => "Formation en mines. Institution spécialisée dans la formation des techniciens des mines et géologie.",
-                        'type' => "Public",
-                        'universite' => "Université Cadi Ayyad",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/est.png'),
-                        'category' => 'technique',
-                        'name' => "EST - École Supérieure de Technologie",
-                        'desc' => "Formation technique (DUT). Institution reconnue pour la qualité de sa formation technique et technologique.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Variables selon région"
-                    ],
-                    [
-                        'logo' => asset('images/fst.png'),
-                        'category' => 'technique',
-                        'name' => "FST - Faculté des Sciences et Techniques",
-                        'desc' => "Formation en sciences et techniques. Institution d'excellence dans la formation scientifique et technique.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Variables selon spécialité"
-                    ],
-                    [
-                        'logo' => asset('images/ens.png'),
-                        'category' => 'specialise',
-                        'name' => "ENS - École Normale Supérieure",
-                        'desc' => "Formation des enseignants. Institution d'excellence dans la formation des futurs enseignants et formateurs.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/ensad.png'),
-                        'category' => 'specialise',
-                        'name' => "ENSAD - École Nationale Supérieure des Arts et du Design",
-                        'desc' => "Formation en arts et design. Institution reconnue pour l'excellence de sa formation artistique et créative.",
-                        'type' => "Public",
-                        'universite' => "Université Hassan II",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/iav.png'),
-                        'category' => 'ingenieur',
-                        'name' => "IAV Hassan II - Institut Agronomique et Vétérinaire",
-                        'desc' => "Formation en agronomie et médecine vétérinaire. Institution d'excellence dans les sciences agronomiques et vétérinaires.",
-                        'type' => "Public",
-                        'universite' => "Université Mohammed V",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/iscae.png'),
-                        'category' => 'commerce',
-                        'name' => "ISCAE Casablanca - Institut Supérieur de Commerce et d'Administration",
-                        'desc' => "Formation en commerce et administration. Institution reconnue pour l'excellence de sa formation en commerce et gestion.",
-                        'type' => "Public",
-                        'universite' => "Université Hassan II",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/enam.png'),
-                        'category' => 'ingenieur',
-                        'name' => "ENAM - École Nationale d'Agriculture de Meknès",
-                        'desc' => "Formation en agriculture et sciences agronomiques. Institution d'excellence dans la formation des ingénieurs agronomes.",
-                        'type' => "Public",
-                        'universite' => "Université Moulay Ismail",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/fmpc.png'),
-                        'category' => 'sante',
-                        'name' => "FMD - Faculté de Médecine Dentaire",
-                        'desc' => "Formation en médecine dentaire. Institution reconnue pour l'excellence de sa formation en odontologie.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/fmpc.png'),
-                        'category' => 'sante',
-                        'name' => "Faculté de Pharmacie",
-                        'desc' => "Formation en pharmacie. Institution d'excellence dans la formation des pharmaciens.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/cpge.png'),
-                        'category' => 'ingenieur',
-                        'name' => "CPGE - Classes Préparatoires aux Grandes Écoles",
-                        'desc' => "Formation préparatoire aux grandes écoles d'ingénieurs. Institution d'excellence pour la préparation aux concours.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/bts.png'),
-                        'category' => 'technique',
-                        'name' => "BTS - Brevet de Technicien Supérieur",
-                        'desc' => "Formation technique de niveau bac+2. Institution spécialisée dans la formation technique et professionnelle.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/isss.png'),
-                        'category' => 'sante',
-                        'name' => "ISSS - Institut Supérieur des Sciences de la Santé",
-                        'desc' => "Formation en sciences de la santé. Institution spécialisée dans la formation des professionnels de santé.",
-                        'type' => "Public",
-                        'universite' => "Université Hassan Premier",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/ispm.png'),
-                        'category' => 'specialise',
-                        'name' => "ISPM - Institut Supérieur des Pêches Maritimes",
-                        'desc' => "Formation en pêches maritimes. Institution spécialisée dans la formation des professionnels de la pêche.",
-                        'type' => "Public",
-                        'universite' => "Université Ibn Zohr",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/iftsau.png'),
-                        'category' => 'architecture',
-                        'name' => "IFTSAU - Institut de Formation aux Technologies de l'Urbanisme et de l'Architecture",
-                        'desc' => "Formation en urbanisme et architecture technologique. Institution spécialisée dans l'aménagement urbain.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/imt.png'),
-                        'category' => 'technique',
-                        'name' => "IMT - Institut des Mines de Touissit",
-                        'desc' => "Formation en mines et géologie. Institution spécialisée dans la formation des techniciens des mines.",
-                        'type' => "Public",
-                        'universite' => "Université Mohammed Premier",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/ifmbtp.png'),
-                        'category' => 'technique',
-                        'name' => "IFMBTP - Institut de Formation aux Métiers du BTP",
-                        'desc' => "Formation en bâtiment et travaux publics. Institution spécialisée dans la formation des techniciens du BTP.",
-                        'type' => "Public",
-                        'universite' => "Université Sidi Mohammed Ben Abdellah",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/istaht.png'),
-                        'category' => 'specialise',
-                        'name' => "ISTAHT - Institut Supérieur de Technologie Hôtelière et Touristique",
-                        'desc' => "Formation en hôtellerie et tourisme. Institution spécialisée dans la formation des professionnels de l'hôtellerie.",
-                        'type' => "Public",
-                        'universite' => "Multiples universités",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/inas.png'),
-                        'category' => 'specialise',
-                        'name' => "INAS - Institut National de l'Action Sociale",
-                        'desc' => "Formation en action sociale. Institution spécialisée dans la formation des travailleurs sociaux.",
-                        'type' => "Public",
-                        'universite' => "Université Abdelmalek Essaâdi",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/lydex.png'),
-                        'category' => 'specialise',
-                        'name' => "LYDEX - Lycée d'Excellence",
-                        'desc' => "Formation d'excellence pour les lycéens. Institution d'élite dans la formation secondaire.",
-                        'type' => "Public",
-                        'universite' => "Sans université",
-                        'frais' => "Gratuit",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/fgses.png'),
-                        'category' => 'commerce',
-                        'name' => "FGSES - Faculté de Gouvernance, Économie et Sciences Sociales",
-                        'desc' => "Formation en gouvernance, économie et sciences sociales. Institution d'excellence de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/gti.png'),
-                        'category' => 'ingenieur',
-                        'name' => "GTI - Green Tech Institute",
-                        'desc' => "Formation en technologies vertes et durables. Institution innovante de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/um6p.png'),
-                        'category' => 'sante',
-                        'name' => "FMS - Faculté de Médecine et Sciences de la Santé",
-                        'desc' => "Formation en médecine et sciences de la santé. Institution d'excellence médicale de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/um6p.png'),
-                        'category' => 'sante',
-                        'name' => "ISSB-P - Institut Supérieur des Sciences Biomédicales et Paramédicales",
-                        'desc' => "Formation en sciences biomédicales et paramédicales. Institution spécialisée de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/um6p.png'),
-                        'category' => 'commerce',
-                        'name' => "SHBM - School of Hospitality Business and Management",
-                        'desc' => "Formation en hôtellerie et management. Institution d'excellence hôtelière de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/um6p.png'),
-                        'category' => 'ingenieur',
-                        'name' => "EMINES - École des Mines Industrielles",
-                        'desc' => "Formation en management industriel. Institution d'excellence en ingénierie de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/um6p.png'),
-                        'category' => 'ingenieur',
-                        'name' => "CS - Computer Science School",
-                        'desc' => "Formation en informatique et sciences informatiques. Institution d'excellence en informatique de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/um6p.png'),
-                        'category' => 'architecture',
-                        'name' => "SAP+D - School of Architecture, Planning and Design",
-                        'desc' => "Formation en architecture, urbanisme et design. Institution d'excellence architecturale de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ],
-                    [
-                        'logo' => asset('images/um6p.png'),
-                        'category' => 'ingenieur',
-                        'name' => "IST&I - Institut des Sciences, Technologies et Innovation",
-                        'desc' => "Formation en sciences, technologies et innovation. Institution innovante de l'UM6P.",
-                        'type' => "Semi-public",
-                        'universite' => "UM6P - Université Mohammed VI Polytechnique",
-                        'frais' => "Payant",
-                        'seuils' => "Non publiés"
-                    ]
-                ] as $ecole)
-                <div class="col-md-6 col-lg-4 ecole-item" data-category="{{ $ecole['category'] }}">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body position-relative">
-                            <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-2 rounded-circle favorite-btn" 
-                                    title="{{ in_array($ecole['name'], $userFavorites ?? []) ? 'Retirer des favoris' : 'Ajouter aux favoris' }}" 
-                                    data-type="ecole"
-                                    data-item-id="{{ $ecole['name'] }}"
-                                    data-item-name="{{ $ecole['name'] }}"
-                                    data-item-category="{{ $ecole['category'] }}"
-                                    data-item-description="{{ $ecole['desc'] }}">
-                                <svg width="20" height="20" fill="{{ in_array($ecole['name'], $userFavorites ?? []) ? '#dc3545' : '#6c757d' }}" class="{{ in_array($ecole['name'], $userFavorites ?? []) ? 'text-danger' : 'text-secondary' }}" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                            </button>
-                            <div class="mb-3 text-center">
-                                <img src="{{ $ecole['logo'] }}" alt="Logo école" style="max-height: 50px;">
-                            </div>
-                            <h5 class="card-title fw-bold">{{ $ecole['name'] }}</h5>
-                            <p class="card-text text-muted small">{{ $ecole['desc'] }}</p>
-                            <hr>
-                            <div class="row mb-2">
-                                <div class="col-5 text-muted small">
-                                    <i class="fas fa-key me-1"></i>Type :
+                @if(isset($schools) && count($schools) > 0)
+                    @foreach($schools as $school)
+                    <div class="col-md-6 col-lg-4 ecole-item" data-category="{{ $school->category }}">
+                        <div class="card h-100 shadow-sm border-0">
+                            <!-- En-tête avec image et nom -->
+                            <div class="card-header bg-white border-0 text-center pb-3">
+                                <div class="school-image-container mb-3">
+                                    @if($school->logo)
+                                        <img src="{{ asset('images/' . $school->logo) }}" alt="{{ $school->name }}" 
+                                             class="school-logo">
+                                    @else
+                                        <div class="school-logo-placeholder">
+                                            <i class="fas fa-university text-primary fa-2x"></i>
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="col-7 text-end"><span class="badge bg-light text-primary">{{ $ecole['type'] }}</span></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-5 text-muted small">
-                                    <i class="fas fa-building me-1"></i>Université :
-                                </div>
-                                <div class="col-7 text-end"><span class="badge bg-light text-secondary">{{ $ecole['universite'] }}</span></div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-5 text-muted small">
-                                    <i class="fas fa-gem me-1"></i>Frais :
-                                </div>
-                                <div class="col-7 text-end"><span class="badge bg-light text-warning">{{ $ecole['frais'] }}</span></div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-5 text-muted small">
-                                    <i class="fas fa-chart-line me-1"></i>Seuils :
-                                </div>
-                                <div class="col-7 text-end">
-                                    <span class="badge bg-light text-info">{{ $ecole['seuils'] }}</span>
-                                    <i class="fas fa-chevron-down ms-1 text-muted"></i>
+                                <h6 class="fw-bold mb-1">{{ $school->name }}</h6>
+                                <small class="text-muted">{{ $school->university }}</small>
+                                
+                                <!-- Bouton favori -->
+                                <div class="favorite-btn">
+                                    <button class="btn btn-sm btn-outline-danger border-0 favorite-btn" 
+                                            data-type="ecole" 
+                                            data-item-id="{{ $school->id }}"
+                                            data-item-name="{{ $school->name }}"
+                                            data-item-category="{{ $school->category }}"
+                                            data-item-description="{{ $school->description }}"
+                                            type="button">
+                                        <i class="far fa-heart"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-primary w-100">En savoir plus</a>
+                            
+                            <div class="card-body">
+                                <!-- Description -->
+                                <p class="text-muted small mb-4">{{ Str::limit($school->description, 100) }}</p>
+                                
+                                <!-- Informations détaillées -->
+                                <div class="school-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-tag text-primary me-2"></i>
+                                        <span class="text-muted">Catégorie:</span>
+                                        <span class="fw-bold text-primary ms-1">{{ ucfirst($school->category) }}</span>
+                                    </div>
+                                    
+                                    <div class="detail-item">
+                                        <i class="fas fa-building text-success me-2"></i>
+                                        <span class="text-muted">Type:</span>
+                                        <span class="fw-bold text-success ms-1">{{ $school->type }}</span>
+                                    </div>
+                                    
+                                    <div class="detail-item">
+                                        <i class="fas fa-money-bill text-warning me-2"></i>
+                                        <span class="text-muted">Frais:</span>
+                                        <span class="fw-bold text-warning ms-1">{{ $school->fees ?? 'Non spécifié' }}</span>
+                                    </div>
+                                    
+                                    @if($school->seuils)
+                                    <div class="detail-item">
+                                        <i class="fas fa-chart-line text-info me-2"></i>
+                                        <span class="text-muted">Seuils:</span>
+                                        <span class="fw-bold text-info ms-1">{{ $school->seuils }}</span>
+                                    </div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                @endforeach
+                    @endforeach
+                @else
+                    <div class="col-12">
+                        <div class="text-center py-5">
+                            <i class="fas fa-university fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Aucune école trouvée</h5>
+                            <p class="text-muted">Il n'y a pas encore d'écoles dans la base de données.</p>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+}
+
+.school-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.school-logo {
+    border: 3px solid #e9ecef;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 100%;
+    height: auto;
+}
+
+.card:hover .school-logo {
+    border-color: #0d6efd;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.school-logo-placeholder {
+    width: 80px;
+    height: 80px;
+    border: 3px solid #e9ecef;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    transition: all 0.3s ease;
+}
+
+.card:hover .school-logo-placeholder {
+    border-color: #0d6efd;
+    transform: scale(1.05);
+}
+
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.favorite-btn .btn {
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favorite-btn .btn:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+.favorite-btn .btn.favorited {
+    background-color: #dc3545;
+    color: white;
+}
+
+.favorite-btn .btn.favorited i {
+    animation: heartBeat 0.6s ease-in-out;
+}
+
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.school-details {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-item i {
+    width: 16px;
+    text-align: center;
+}
+
+.btn-group .btn {
+    border-radius: 20px;
+    margin-right: 5px;
+}
+
+.btn-group .btn.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+}
+
+.pagination .page-link {
+    border-radius: 8px;
+    margin: 0 2px;
+    border: none;
+    color: #6c757d;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.nav-link.active {
+    background-color: #e3f2fd !important;
+    border-radius: 8px;
+    font-weight: 600;
+}
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -533,6 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const ecoleItems = document.querySelectorAll('.ecole-item');
     const searchInput = document.getElementById('searchEcoles');
     const resultCount = document.getElementById('resultCount');
+    const favoriteButtons = document.querySelectorAll('.favorite-btn');
 
     // Fonction de filtrage par catégorie
     function filterByCategory(category) {
@@ -567,6 +312,112 @@ document.addEventListener('DOMContentLoaded', function() {
         resultCount.textContent = visibleCount;
     }
 
+    // Gestion des favoris
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const type = this.getAttribute('data-type');
+            const itemId = this.getAttribute('data-item-id');
+            const itemName = this.getAttribute('data-item-name');
+            const itemCategory = this.getAttribute('data-item-category');
+            const itemDescription = this.getAttribute('data-item-description');
+
+            // Désactiver le bouton pendant la requête
+            this.disabled = true;
+
+            fetch('/favorites/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    type: type,
+                    item_id: itemId,
+                    item_name: itemName,
+                    item_category: itemCategory,
+                    item_description: itemDescription
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Toggle de l'état visuel
+                    this.classList.toggle('favorited');
+                    
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('favorited')) {
+                        icon.className = 'fas fa-heart';
+                    } else {
+                        icon.className = 'far fa-heart';
+                    }
+
+                    // Afficher un message de confirmation
+                    const toast = document.createElement('div');
+                    toast.className = 'position-fixed top-0 end-0 p-3';
+                    toast.style.zIndex = '9999';
+                    toast.innerHTML = `
+                        <div class="toast show" role="alert">
+                            <div class="toast-header">
+                                <i class="fas fa-heart text-danger me-2"></i>
+                                <strong class="me-auto">Favoris</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                            </div>
+                            <div class="toast-body">
+                                ${data.message}
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(toast);
+
+                    // Supprimer le toast après 3 secondes
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 3000);
+
+                    // Déclencher l'événement de mise à jour des favoris
+                    window.dispatchEvent(new Event('favoriteUpdated'));
+                } else {
+                    throw new Error(data.message || 'Erreur inconnue');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur détaillée:', error);
+                
+                // Afficher un message d'erreur plus détaillé
+                const errorToast = document.createElement('div');
+                errorToast.className = 'position-fixed top-0 end-0 p-3';
+                errorToast.style.zIndex = '9999';
+                errorToast.innerHTML = `
+                    <div class="toast show" role="alert">
+                        <div class="toast-header bg-danger text-white">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong class="me-auto">Erreur</strong>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${error.message}
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(errorToast);
+
+                // Supprimer le toast d'erreur après 5 secondes
+                setTimeout(() => {
+                    errorToast.remove();
+                }, 5000);
+            })
+            .finally(() => {
+                // Réactiver le bouton
+                this.disabled = false;
+            });
+        });
+    });
+
     // Événements pour les filtres par catégorie
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -599,53 +450,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialiser le compteur
     filterByCategory('all');
-
-    // Gestion des favoris
-    const favoriteButtons = document.querySelectorAll('.favorite-btn');
     
-    favoriteButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const type = this.getAttribute('data-type');
-            const itemId = this.getAttribute('data-item-id');
-            const itemName = this.getAttribute('data-item-name');
-            const itemCategory = this.getAttribute('data-item-category');
-            const itemDescription = this.getAttribute('data-item-description');
-            
-            // Envoyer la requête AJAX
-            fetch('/favorites/toggle', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    type: type,
-                    item_id: itemId,
-                    item_name: itemName,
-                    item_category: itemCategory,
-                    item_description: itemDescription
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'added') {
-                    this.querySelector('svg').style.fill = '#dc3545';
-                    this.title = 'Retirer des favoris';
-                    // Recharger la page pour mettre à jour le dashboard
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 500);
-                } else {
-                    this.querySelector('svg').style.fill = '#6c757d';
-                    this.title = 'Ajouter aux favoris';
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-            });
-        });
+    // Animation d'apparition des cartes
+    ecoleItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            item.style.transition = 'all 0.5s ease';
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 100);
     });
 });
 </script>

@@ -97,8 +97,8 @@
                                 </div>
                                 
                                 <div class="mb-3">
-                                    <label for="filières" class="form-label">Filières *</label>
-                                    <input type="text" class="form-control" id="filières" name="filières" value="{{ old('filières') }}" required>
+                                    <label for="filieres" class="form-label">Filières *</label>
+                                    <input type="text" class="form-control" id="filieres" name="filieres" value="{{ old('filieres') }}" required>
                                     <small class="text-muted">Ex: EMI, ENSIAS, ENSEM, IAV, INPT, INSEA, ENSA...</small>
                                 </div>
                             </div>
@@ -143,17 +143,7 @@
                         
                         <!-- Actions -->
                         <div class="row">
-                            <div class="col-md-6">
-                                <h6 class="fw-bold text-info mb-3">Statut</h6>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="status" name="status" value="active" checked>
-                                    <label class="form-check-label" for="status">
-                                        Concours actif
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <h6 class="fw-bold text-warning mb-3">Actions</h6>
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-success">
