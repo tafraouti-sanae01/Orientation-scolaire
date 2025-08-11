@@ -297,7 +297,11 @@
 </div>
 
 <!-- Admin Section -->
-@auth
+@php
+    $adminEmail = 'admin@gmail.com'; 
+@endphp
+
+@if(Auth::check() && Auth::user()->email === $adminEmail)
 <div class="py-5 bg-gradient-dark text-white" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
     <div class="container">
         <div class="row align-items-center">
@@ -353,5 +357,6 @@
         </div>
     </div>
 </div>
-@endauth
+@endif
+
 @endsection

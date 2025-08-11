@@ -38,8 +38,8 @@ class AdminAuthController extends Controller
                     'email' => 'admin@gmail.com',
                     'password' => Hash::make('admin123'),
                     'profile_completed' => true,
-                    'bac_level' => 'bac+3',
-                    'bac_field' => 'Sciences',
+                    'bac_level' => '',
+                    'bac_field' => '',
                     'interests' => json_encode(['Administration', 'Gestion']),
                 ]
             );

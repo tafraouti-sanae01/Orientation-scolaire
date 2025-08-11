@@ -137,6 +137,13 @@
                             </div>
                         </form>
 
+                        <!-- Error Message -->
+                        <?php
+                        if(session('error')) {
+                            echo '<div class="alert alert-danger mt-3">'.session('error').'</div>';
+                        }
+                        ?>
+
                         <!-- Footer -->
                         <div class="text-center mt-4">
                             <small class="text-muted">
@@ -152,4 +159,4 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+</html>

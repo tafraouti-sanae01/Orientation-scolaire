@@ -15,6 +15,14 @@ class AdminController extends Controller
 
     public function dashboard()
     {
+        $adminEmail = 'admin@gmail.com';
+
+        // Si l'utilisateur n'est pas connecté OU n'est pas admin
+        if (!Auth::check() || Auth::user()->email !== $adminEmail) {
+            // Redirige vers la page de login admin
+            return redirect()->route('admin.login')->with('error', "Veuillez vous connecter en tant qu'administrateur.");
+        }
+
         $totalStudents = User::where('email', '!=', 'admin@gmail.com')->count();
         $totalConcours = \App\Models\Concours::count();
         $totalEcoles = \App\Models\School::count();
@@ -201,4 +209,4 @@ class AdminController extends Controller
         $ecole->delete();
         return redirect()->route('admin.ecoles')->with('success', 'École supprimée avec succès');
     }
-} 
+}
