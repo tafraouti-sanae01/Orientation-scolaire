@@ -69,7 +69,7 @@
                     <a href="{{ route('register') }}" class="btn btn-primary rounded-pill">S'inscrire</a>
                 @endguest
                 @auth
-                    <span class="me-3">Bonjour, {{ Auth::user()->name }}</span>
+                    <span class="me-3">{{ Auth::user()->name }} {{ Auth::user()->prenom ?? '' }}</span>
                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-link text-danger">Déconnexion</button>
@@ -129,8 +129,7 @@
             </div>
         </div>
     </footer>
-
-
+    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

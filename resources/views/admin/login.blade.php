@@ -129,16 +129,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Remember Me -->
-                            <div class="mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                                    <label class="form-check-label text-muted" for="remember">
-                                        Se souvenir de moi
-                                    </label>
-                                </div>
-                            </div>
-
                             <!-- Submit Button -->
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-admin text-white fw-bold">
@@ -146,23 +136,6 @@
                                 </button>
                             </div>
                         </form>
-
-                        <!-- Demo Credentials -->
-                        <div class="mt-4 p-3 bg-light rounded-3">
-                            <h6 class="fw-bold text-dark mb-2">
-                                <i class="fas fa-info-circle text-info me-2"></i>Identifiants de démonstration
-                            </h6>
-                            <div class="row">
-                                <div class="col-6">
-                                    <small class="text-muted">Email:</small><br>
-                                    <code class="text-primary">admin@gmail.com</code>
-                                </div>
-                                <div class="col-6">
-                                    <small class="text-muted">Mot de passe:</small><br>
-                                    <code class="text-primary">admin123</code>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- Footer -->
                         <div class="text-center mt-4">

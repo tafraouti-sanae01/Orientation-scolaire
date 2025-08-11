@@ -14,6 +14,7 @@
                 <li class="nav-item"><a class="nav-link {{ request()->routeIs('student.parametres') ? 'active text-primary' : '' }}" href="{{ route('student.parametres') }}">Paramètres</a></li>
             </ul>
         </div>
+        
         <!-- Contenu principal -->
         <div class="col-md-10 px-4 py-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -204,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    return;
                 }
                 return response.json();
             })
@@ -250,30 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => {
-                console.error('Erreur détaillée:', error);
-                
-                // Afficher un message d'erreur plus détaillé
-                const errorToast = document.createElement('div');
-                errorToast.className = 'position-fixed top-0 end-0 p-3';
-                errorToast.style.zIndex = '9999';
-                errorToast.innerHTML = `
-                    <div class="toast show" role="alert">
-                        <div class="toast-header bg-danger text-white">
-                            <i class="fas fa-exclamation-triangle me-2"></i>
-                            <strong class="me-auto">Erreur</strong>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-                        </div>
-                        <div class="toast-body">
-                            ${error.message}
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(errorToast);
-
-                // Supprimer le toast d'erreur après 5 secondes
-                setTimeout(() => {
-                    errorToast.remove();
-                }, 5000);
+                return;
             })
             .finally(() => {
                 // Réactiver le bouton
