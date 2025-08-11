@@ -9,7 +9,7 @@
                 <ul class="nav flex-column mt-4">
                     <li class="nav-item"><a
                             class="nav-link {{ request()->routeIs('dashboard') ? 'active text-primary' : '' }}"
-                            href="{{ route('dashboard') }}">Mon Plan Tawjih</a></li>
+                            href="{{ route('dashboard') }}">Accueil</a></li>
                     <li class="nav-item"><a
                             class="nav-link {{ request()->routeIs('student.ecoles') ? 'active text-primary' : '' }}"
                             href="{{ route('student.ecoles') }}">Ecoles et universités</a></li>
@@ -378,17 +378,17 @@
                                 toast.className = 'position-fixed top-0 end-0 p-3';
                                 toast.style.zIndex = '9999';
                                 toast.innerHTML = `
-                                                <div class="toast show" role="alert">
-                                                    <div class="toast-header">
-                                                        <i class="fas fa-heart text-danger me-2"></i>
-                                                        <strong class="me-auto">Favoris</strong>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                                                    </div>
-                                                    <div class="toast-body">
-                                                        ${data.message}
-                                                    </div>
-                                                </div>
-                                            `;
+                                                        <div class="toast show" role="alert">
+                                                            <div class="toast-header">
+                                                                <i class="fas fa-heart text-danger me-2"></i>
+                                                                <strong class="me-auto">Favoris</strong>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                                                            </div>
+                                                            <div class="toast-body">
+                                                                ${data.message}
+                                                            </div>
+                                                        </div>
+                                                    `;
                                 document.body.appendChild(toast);
 
                                 // Supprimer le toast après 3 secondes

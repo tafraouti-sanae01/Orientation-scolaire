@@ -10,7 +10,7 @@
                 <ul class="nav flex-column mt-4">
                     <li class="nav-item"><a
                             class="nav-link {{ request()->routeIs('dashboard') ? 'active text-primary' : '' }}"
-                            href="{{ route('dashboard') }}">Mon Plan Tawjih</a></li>
+                            href="{{ route('dashboard') }}">Accueil</a></li>
                     <li class="nav-item"><a
                             class="nav-link {{ request()->routeIs('student.ecoles') ? 'active text-primary' : '' }}"
                             href="{{ route('student.ecoles') }}">Ecoles et universités</a></li>
