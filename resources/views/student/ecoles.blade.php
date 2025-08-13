@@ -132,6 +132,62 @@
                         </div>
                     @endif
                 </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="text-muted">
+                        Affichage de {{ $schools->firstItem() ?? 0 }} à {{ $schools->lastItem() ?? 0 }} sur {{ $schools->total() }} résultats
+                    </div>
+                    <div class="d-flex gap-2">
+                        @if($schools->hasPages())
+                            <nav aria-label="Navigation des écoles">
+                                <ul class="pagination pagination-sm mb-0">
+                                    {{-- Précédent --}}
+                                    @if($schools->onFirstPage())
+                                        <li class="page-item disabled">
+                                            <span class="page-link">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $schools->previousPageUrl() }}">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Pages --}}
+                                    @foreach($schools->getUrlRange(1, $schools->lastPage()) as $page => $url)
+                                        @if($page == $schools->currentPage())
+                                            <li class="page-item active">
+                                                <span class="page-link">{{ $page }}</span>
+                                            </li>
+                                        @else
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- Suivant --}}
+                                    @if($schools->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $schools->nextPageUrl() }}">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li class="page-item disabled">
+                                            <span class="page-link">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -378,17 +434,17 @@
                                 toast.className = 'position-fixed top-0 end-0 p-3';
                                 toast.style.zIndex = '9999';
                                 toast.innerHTML = `
-                                                        <div class="toast show" role="alert">
-                                                            <div class="toast-header">
-                                                                <i class="fas fa-heart text-danger me-2"></i>
-                                                                <strong class="me-auto">Favoris</strong>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                                                            </div>
-                                                            <div class="toast-body">
-                                                                ${data.message}
-                                                            </div>
+                                                    <div class="toast show" role="alert">
+                                                        <div class="toast-header">
+                                                            <i class="fas fa-heart text-danger me-2"></i>
+                                                            <strong class="me-auto">Favoris</strong>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
                                                         </div>
-                                                    `;
+                                                        <div class="toast-body">
+                                                            ${data.message}
+                                                        </div>
+                                                    </div>
+                                                `;
                                 document.body.appendChild(toast);
 
                                 // Supprimer le toast après 3 secondes

@@ -11,7 +11,7 @@ class StudentEcolesController extends Controller
     public function index()
     {
         try {
-            $schools = School::all();
+            $schools = School::paginate(12);
             return view('student.ecoles', compact('schools'));
         } catch (\Exception $e) {
             // En cas d'erreur, retourner une vue avec un tableau vide

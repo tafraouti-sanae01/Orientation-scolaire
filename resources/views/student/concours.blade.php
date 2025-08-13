@@ -39,7 +39,6 @@
             
             <!-- Grille des concours -->
             <div class="row g-4">
-                @php($concours = \App\Models\Concours::latest()->get())
                 @foreach($concours as $conc)
                 @php($category = $conc->category)
                 @switch($category)
@@ -72,6 +71,50 @@
                             <div class="mb-2">
                                 <span class="badge bg-light text-dark me-1">{{ $catLabel }}</span>
                                 <span class="badge bg-light text-dark me-1">Inscriptions : {{ $conc->inscription }}</span>
+                                <?php 
+                                    $today = new DateTime(); 
+                                    // Définir un tableau de conversion des mois
+                                    $moisFrancais = [
+                                        'janvier' => 'January',
+                                        'février' => 'February',
+                                        'mars' => 'March',
+                                        'avril' => 'April',
+                                        'mai' => 'May',
+                                        'juin' => 'June',
+                                        'juillet' => 'July',
+                                        'août' => 'August',
+                                        'septembre' => 'September',
+                                        'octobre' => 'October',
+                                        'novembre' => 'November',
+                                        'décembre' => 'December'
+                                    ];
+
+                                    try {
+                                        // Si la date contient un tiret, prendre la dernière date
+                                        if (strpos($conc->inscription, '-') !== false) {
+                                            $dateParts = explode('-', $conc->inscription);
+                                            $endDate = trim(end($dateParts));
+                                        } else {
+                                            $endDate = trim($conc->inscription);
+                                        }
+
+                                        // Convertir les mois français en anglais
+                                        foreach ($moisFrancais as $fr => $en) {
+                                            $endDate = str_replace($fr, $en, strtolower($endDate));
+                                        }
+
+                                        $inscriptionDate = DateTime::createFromFormat('j F Y', $endDate);
+                                        $isOpen = $inscriptionDate && $today <= $inscriptionDate;
+                                    } catch (Exception $e) {
+                                        $isOpen = false;
+                                    }
+                                ?>
+
+                                @if($isOpen)
+                                    <span class="badge bg-success me-1">Inscriptions ouvertes</span>
+                                @else
+                                    <span class="badge bg-danger me-1">Inscriptions fermées</span>
+                                @endif
                                 <span class="badge bg-warning me-1">Épreuves : {{ $conc->epreuve }}</span>
                             </div>
                             <ul class="small text-muted mb-3">
@@ -94,6 +137,62 @@
                     </div>
                 </div>
                 @endforeach
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <div class="text-muted">
+                    Affichage de {{ $concours->firstItem() ?? 0 }} à {{ $concours->lastItem() ?? 0 }} sur {{ $concours->total() }} résultats
+                </div>
+                <div class="d-flex gap-2">
+                    @if($concours->hasPages())
+                        <nav aria-label="Navigation des concours">
+                            <ul class="pagination pagination-sm mb-0">
+                                {{-- Précédent --}}
+                                @if($concours->onFirstPage())
+                                    <li class="page-item disabled">
+                                        <span class="page-link">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $concours->previousPageUrl() }}">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                {{-- Pages --}}
+                                @foreach($concours->getUrlRange(1, $concours->lastPage()) as $page => $url)
+                                    @if($page == $concours->currentPage())
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ $page }}</span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+
+                                {{-- Suivant --}}
+                                @if($concours->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $concours->nextPageUrl() }}">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled">
+                                        <span class="page-link">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </nav>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -294,4 +393,4 @@ document.addEventListener('DOMContentLoaded', function() {
     filterByCategory('all');
 });
 </script>
-@endsection 
+@endsection
