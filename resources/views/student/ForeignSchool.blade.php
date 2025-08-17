@@ -64,13 +64,11 @@
                         <!-- En-tête avec image et nom -->
                         <div class="card-header bg-white border-0 text-center pb-3">
                             <div class="ForeignSchool-image-container mb-3">
-                                @if($school->image)
-                                    <img src="{{ asset('storage/' . $school->image) }}" alt="{{ $school->name }}" class="ForeignSchool-logo">
-                                @else
+                                
                                     <div class="ForeignSchool-logo-placeholder">
                                         <i class="fas fa-university text-primary fa-2x"></i>
                                     </div>
-                                @endif
+                                
                             </div>
                             <h6 class="fw-bold mb-1">{{ $school->name }}</h6>
 

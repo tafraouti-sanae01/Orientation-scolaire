@@ -70,7 +70,7 @@
                             </div>
                             <p class="text-muted small mb-2">{{ $conc->description }}</p>
                             <div class="mb-2">
-                                <span class="badge bg-light text-dark me-1">{{ $catLabel }}</span>
+                                <span class="badge bg-light text-dark me-1">{{ $category }}</span>
                                 <span class="badge bg-light text-dark me-1">Inscriptions : {{ $conc->inscription }}</span>
                                 <?php 
                                     $today = new DateTime(); 
@@ -111,12 +111,13 @@
                                     }
                                 ?>
 
+                                {{--   
                                 @if($isOpen)
                                     <span class="badge bg-success me-1">Inscriptions ouvertes</span>
                                 @else
                                     <span class="badge bg-danger me-1">Inscriptions fermées</span>
                                 @endif
-                                <span class="badge bg-warning me-1">Épreuves : {{ $conc->epreuve }}</span>
+                                <span class="badge bg-warning me-1">Épreuves : {{ $conc->epreuve }}</span> --}}
                             </div>
                             <ul class="small text-muted mb-3">
                                 @if($conc->filieres)

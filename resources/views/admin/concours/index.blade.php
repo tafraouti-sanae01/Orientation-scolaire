@@ -155,8 +155,62 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="mt-3 d-flex justify-content-center">
-                            {{ $concours->links() }}
+
+                        <!-- Navigation améliorée -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <div class="text-muted">
+                                Affichage de {{ $concours->firstItem() ?? 0 }} à {{ $concours->lastItem() ?? 0 }} sur {{ $concours->total() }} résultats
+                            </div>
+                            <div class="d-flex gap-2">
+                                @if($concours->hasPages())
+                                    <nav aria-label="Navigation des écoles">
+                                        <ul class="pagination pagination-sm mb-0">
+                                            <!-- Bouton Précédent -->
+                                            @if($concours->onFirstPage())
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">
+                                                        <i class="fas fa-chevron-left"></i>
+                                                    </span>
+                                                </li>
+                                            @else
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{ $concours->previousPageUrl() }}">
+                                                        <i class="fas fa-chevron-left"></i>
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <!-- Pages numérotées -->
+                                            @foreach($concours->getUrlRange(1, $concours->lastPage()) as $page => $url)
+                                                @if($page == $concours->currentPage())
+                                                    <li class="page-item active">
+                                                        <span class="page-link">{{ $page }}</span>
+                                                    </li>
+                                                @else
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+
+                                            <!-- Bouton Suivant -->
+                                            @if($concours->hasMorePages())
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{ $concours->nextPageUrl() }}">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </a>
+                                                </li>
+                                            @else
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </span>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </nav>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

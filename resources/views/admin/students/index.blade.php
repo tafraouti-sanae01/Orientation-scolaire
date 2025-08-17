@@ -144,10 +144,62 @@
                         </table>
                     </div>
 
-                    <!-- Pagination -->
-                    <div class="d-flex justify-content-center mt-4">
-                        {{ $students->links() }}
-                    </div>
+                        <!-- Navigation améliorée -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <div class="text-muted">
+                                Affichage de {{ $students->firstItem() ?? 0 }} à {{ $students->lastItem() ?? 0 }} sur {{ $students->total() }} résultats
+                            </div>
+                            <div class="d-flex gap-2">
+                                @if($students->hasPages())
+                                    <nav aria-label="Navigation des écoles">
+                                        <ul class="pagination pagination-sm mb-0">
+                                            <!-- Bouton Précédent -->
+                                            @if($students->onFirstPage())
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">
+                                                        <i class="fas fa-chevron-left"></i>
+                                                    </span>
+                                                </li>
+                                            @else
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{ $students->previousPageUrl() }}">
+                                                        <i class="fas fa-chevron-left"></i>
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            <!-- Pages numérotées -->
+                                            @foreach($students->getUrlRange(1, $students->lastPage()) as $page => $url)
+                                                @if($page == $students->currentPage())
+                                                    <li class="page-item active">
+                                                        <span class="page-link">{{ $page }}</span>
+                                                    </li>
+                                                @else
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+
+                                            <!-- Bouton Suivant -->
+                                            @if($students->hasMorePages())
+                                                <li class="page-item">
+                                                    <a class="page-link" href="{{ $students->nextPageUrl() }}">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </a>
+                                                </li>
+                                            @else
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">
+                                                        <i class="fas fa-chevron-right"></i>
+                                                    </span>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </nav>
+                                @endif
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
