@@ -5,6 +5,7 @@ use App\Http\Controllers\StudentConfigController;
 use App\Http\Controllers\StudentParametresController;
 use App\Http\Controllers\StudentProfilController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\Admin\ForeignSchoolController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/student/ecoles', [App\Http\Controllers\StudentEcolesController::class, 'index'])->name('student.ecoles');
     
     Route::get('/student/concours', [App\Http\Controllers\StudentConcoursController::class, 'index'])->name('student.concours');
+
+    Route::get('/studenet/ForeignSchool', [App\Http\Controllers\StudentForeignSchoolController::class,'index'])->name('student.ForeignSchool');
     
     Route::get('/student/profil', [StudentProfilController::class, 'index'])->name('student.profil');
     Route::get('/student/profil/edit', [StudentProfilController::class, 'edit'])->name('student.profil.edit');
@@ -67,6 +70,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('/students/{id}/edit', [App\Http\Controllers\AdminController::class, 'editStudent'])->name('students.edit');
     Route::put('/students/{id}', [App\Http\Controllers\AdminController::class, 'updateStudent'])->name('students.update');
     Route::delete('/students/{id}', [App\Http\Controllers\AdminController::class, 'deleteStudent'])->name('students.delete');
+
     
     // Gestion des concours
     Route::get('/concours', [App\Http\Controllers\AdminController::class, 'concours'])->name('concours');
@@ -83,6 +87,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('/ecoles/{id}/edit', [App\Http\Controllers\AdminController::class, 'editEcole'])->name('ecoles.edit');
     Route::put('/ecoles/{id}', [App\Http\Controllers\AdminController::class, 'updateEcole'])->name('ecoles.update');
     Route::delete('/ecoles/{id}', [App\Http\Controllers\AdminController::class, 'deleteEcole'])->name('ecoles.delete');
+    
+    // Gestion des écoles étrangères
+    Route::get('/foreign-schools', [ForeignSchoolController::class, 'index'])->name('foreign-schools.index');
+    Route::get('/foreign-schools/create', [ForeignSchoolController::class, 'create'])->name('foreign-schools.create');
+    Route::post('/foreign-schools', [ForeignSchoolController::class, 'store'])->name('foreign-schools.store');
+    Route::get('/foreign-schools/{school}/edit', [ForeignSchoolController::class, 'edit'])->name('foreign-schools.edit');
+    Route::put('/foreign-schools/{school}', [ForeignSchoolController::class, 'update'])->name('foreign-schools.update');
+    Route::delete('/foreign-schools/{school}', [ForeignSchoolController::class, 'destroy'])->name('foreign-schools.delete');
 });
 
 Route::get('/ecoles', function () {

@@ -13,7 +13,9 @@
                     <li class="nav-item"><a
                             class="nav-link {{ request()->routeIs('student.ecoles') ? 'active text-primary' : '' }}"
                             href="{{ route('student.ecoles') }}">Ecoles et universités</a></li>
-                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('student.ForeignSchool') ? 'active text-primary' : '' }}" href="{{ route('student.ForeignSchool') }}">Écoles Étrangères</a></li>
+                    <li class="nav-item"><a
+                            class="nav-link {{ request()->routeIs('student.ForeignSchool') ? 'active text-primary' : '' }}"
+                            href="{{ route('student.ForeignSchool') }}">Écoles Étrangères</a></li>
                     <li class="nav-item"><a
                             class="nav-link {{ request()->routeIs('student.concours') ? 'active text-primary' : '' }}"
                             href="{{ route('student.concours') }}">Concours</a></li>
@@ -27,169 +29,202 @@
             </div>
 
             <!-- Contenu principal -->
-            <div class="col-md-10 px-4 py-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h4 class="fw-bold mb-1">ÉCOLES ET UNIVERSITÉS</h4>
-                        <p class="text-muted mb-0">Découvrez les meilleures écoles et universités du Maroc</p>
-                    </div>
-                    <div>
-                        <input type="text" id="searchEcoles" class="form-control" placeholder="Rechercher une école..."
-                            style="width: 300px;">
-                    </div>
-                </div>
+<div class="col-md-10 px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold mb-1">ÉCOLES ET UNIVERSITÉS</h4>
+            <p class="text-muted mb-0">Découvrez les meilleures écoles et universités</p>
+        </div>
+        <div>
+            <input type="text" id="searchEcoles" class="form-control" placeholder="Rechercher une école..." style="width: 300px;">
+        </div>
+    </div>
 
-                <!-- Filtres par catégorie -->
-                <div class="mb-4">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary active" data-filter="all">Toutes</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="ingenieur">Ingénierie</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="commerce">Commerce</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="sante">Santé</button>
-                        <button type="button" class="btn btn-outline-primary"
-                            data-filter="architecture">Architecture</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="technique">Technique</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="specialise">Spécialisé</button>
-                    </div>
-                </div>
+    <!-- Filtres par catégorie -->
+    <div class="mb-4">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary active" data-filter="all">Toutes</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="ingenieur">Ingénierie</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="commerce">Commerce</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="sante">Santé</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="architecture">Architecture</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="technique">Technique</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="specialise">Spécialisé</button>
+        </div>
+    </div>
 
-                <div class="mb-3 text-muted">Résultats: <span class="fw-bold" id="resultCount">0</span></div>
+    <div class="mb-3 text-muted">Résultats: <span class="fw-bold" id="resultCount">{{ $ForeignSchool->total() }}</span></div>
 
-                <!-- Grille des écoles -->
-                <div class="row g-4">
-                    @if(isset($schools) && count($schools) > 0)
-                        @foreach($schools as $school)
-                            <div class="col-md-6 col-lg-4 ecole-item" data-category="{{ $school->category }}">
-                                <div class="card h-100 shadow-sm border-0">
-                                    <!-- En-tête avec image et nom -->
-                                    <div class="card-header bg-white border-0 text-center pb-3">
-                                        <div class="school-image-container mb-3">
-                                            @if($school->logo)
-                                                <img src="{{ asset('images/' . $school->logo) }}" alt="{{ $school->name }}"
-                                                    class="school-logo">
-                                            @else
-                                                <div class="school-logo-placeholder">
-                                                    <i class="fas fa-university text-primary fa-2x"></i>
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <h6 class="fw-bold mb-1">{{ $school->name }}</h6>
-                                        <small class="text-muted">{{ $school->university }}</small>
-
-                                        <!-- Bouton favori -->
-                                        <div class="favorite-btn">
-                                            <button class="btn btn-sm btn-outline-danger border-0 favorite-btn" data-type="ecole"
-                                                data-item-id="{{ $school->id }}" data-item-name="{{ $school->name }}"
-                                                data-item-category="{{ $school->category }}"
-                                                data-item-description="{{ $school->description }}" type="button">
-                                                <i class="far fa-heart"></i>
-                                            </button>
-                                        </div>
+    <!-- Grille des écoles -->
+    <div class="row g-4">
+@if($ForeignSchool->count() > 0)
+            @foreach($ForeignSchool as $school)
+                <div class="col-md-6 col-lg-4 ecole-item" data-category="{{ $school->category }}">
+                    <div class="card h-100 shadow-sm border-0">
+                        <!-- En-tête avec image et nom -->
+                        <div class="card-header bg-white border-0 text-center pb-3">
+                            <div class="ForeignSchool-image-container mb-3">
+                                @if($school->image)
+                                    <img src="{{ asset('storage/' . $school->image) }}" alt="{{ $school->name }}" class="ForeignSchool-logo">
+                                @else
+                                    <div class="ForeignSchool-logo-placeholder">
+                                        <i class="fas fa-university text-primary fa-2x"></i>
                                     </div>
-
-                                    <div class="card-body">
-                                        <!-- Description -->
-                                        <p class="text-muted small mb-4">{{ Str::limit($school->description, 100) }}</p>
-
-                                        <!-- Informations détaillées -->
-                                        <div class="school-details">
-                                            <div class="detail-item">
-                                                <i class="fas fa-tag text-primary me-2"></i>
-                                                <span class="text-muted">Catégorie:</span>
-                                                <span class="fw-bold text-primary ms-1">{{ ucfirst($school->category) }}</span>
-                                            </div>
-
-                                            <div class="detail-item">
-                                                <i class="fas fa-building text-success me-2"></i>
-                                                <span class="text-muted">Type:</span>
-                                                <span class="fw-bold text-success ms-1">{{ $school->type }}</span>
-                                            </div>
-
-                                            <div class="detail-item">
-                                                <i class="fas fa-money-bill text-warning me-2"></i>
-                                                <span class="text-muted">Frais:</span>
-                                                <span class="fw-bold text-warning ms-1">{{ $school->fees ?? 'Non spécifié' }}</span>
-                                            </div>
-
-                                            @if($school->seuils)
-                                                <div class="detail-item">
-                                                    <i class="fas fa-chart-line text-info me-2"></i>
-                                                    <span class="text-muted">Seuils:</span>
-                                                    <span class="fw-bold text-info ms-1">{{ $school->seuils }}</span>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
-                        @endforeach
-                    @else
-                        <div class="col-12">
-                            <div class="text-center py-5">
-                                <i class="fas fa-university fa-3x text-muted mb-3"></i>
-                                <h5 class="text-muted">Aucune école trouvée</h5>
-                                <p class="text-muted">Il n'y a pas encore d'écoles dans la base de données.</p>
+                            <h6 class="fw-bold mb-1">{{ $school->name }}</h6>
+
+                            <!-- Bouton favori -->
+                            <div class="favorite-btn">
+                                <button class="btn btn-sm btn-outline-danger border-0 favorite-btn" data-type="ecole"
+                                    data-item-id="{{ $school->id }}" data-item-name="{{ $school->name }}"
+                                    data-item-category="{{ $school->type }}" data-item-description="{{ $school->description }}" type="button">
+                                    <i class="far fa-heart"></i>
+                                </button>
                             </div>
                         </div>
-                    @endif
+
+                        <div class="card-body">
+    <!-- Description -->
+    <p class="text-muted small mb-4">{{ Str::limit($school->description, 100) }}</p>
+
+    <!-- Détails -->
+    <div class="ForeignSchool-details row gx-2 gy-1">
+        <div class="col-6">
+            <i class="fas fa-tag text-primary me-1"></i>
+            <span class="text-muted">Catégorie:</span>
+            <span class="fw-semibold text-primary">{{ ucfirst($school->type) ?? '—' }}</span>
+        </div>
+
+        <div class="col-6">
+            <i class="fas fa-building text-success me-1"></i>
+            <span class="text-muted">Type:</span>
+            <span class="fw-semibold text-success">{{ $school->is_free ? 'Gratuite' : 'Payante' }}</span>
+        </div>
+
+        <div class="col-6">
+            <i class="fas fa-globe text-info me-1"></i>
+            <span class="text-muted">Pays:</span>
+            <span class="fw-semibold text-info">{{ $school->country }}</span>
+        </div>
+
+        <div class="col-6">
+            <i class="fas fa-map-marker-alt text-danger me-1"></i>
+            <span class="text-muted">Ville:</span>
+            <span class="fw-semibold text-danger">{{ $school->city }}</span>
+        </div>
+
+        @if($school->address)
+        <div class="col-12">
+            <i class="fas fa-location-arrow text-secondary me-1"></i>
+            <span class="text-muted">Adresse:</span>
+            <span class="fw-semibold text-secondary">{{ $school->address }}</span>
+        </div>
+        @endif
+
+        @if($school->website)
+        <div class="col-12">
+            <i class="fas fa-link text-primary me-1"></i>
+            <span class="text-muted">Site:</span>
+            <a href="{{ $school->website }}" target="_blank" class="fw-semibold text-primary">{{ $school->website }}</a>
+        </div>
+        @endif
+
+        @if($school->email)
+        <div class="col-6">
+            <i class="fas fa-envelope text-warning me-1"></i>
+            <span class="text-muted">Email:</span>
+            <span class="fw-semibold text-warning">{{ $school->email }}</span>
+        </div>
+        @endif
+
+        @if($school->phone)
+        <div class="col-6">
+            <i class="fas fa-phone text-success me-1"></i>
+            <span class="text-muted">Téléphone:</span>
+            <span class="fw-semibold text-success">{{ $school->phone }}</span>
+        </div>
+        @endif
+
+        @if($school->admission_requirements)
+        <div class="col-12">
+            <i class="fas fa-file-alt text-info me-1"></i>
+            <span class="text-muted">Admission:</span>
+            <span class="fw-semibold text-info">{{ $school->admission_requirements }}</span>
+        </div>
+        @endif
+
+        @if($school->language_requirements)
+        <div class="col-12">
+            <i class="fas fa-language text-danger me-1"></i>
+            <span class="text-muted">Langue:</span>
+            <span class="fw-semibold text-danger">{{ $school->language_requirements }}</span>
+        </div>
+        @endif
+    </div>
+</div>
+
+
+                    </div>
                 </div>
-
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <div class="text-muted">
-                        Affichage de {{ $schools->firstItem() ?? 0 }} à {{ $schools->lastItem() ?? 0 }} sur {{ $schools->total() }} résultats
-                    </div>
-                    <div class="d-flex gap-2">
-                        @if($schools->hasPages())
-                            <nav aria-label="Navigation des écoles">
-                                <ul class="pagination pagination-sm mb-0">
-                                    {{-- Précédent --}}
-                                    @if($schools->onFirstPage())
-                                        <li class="page-item disabled">
-                                            <span class="page-link">
-                                                <i class="fas fa-chevron-left"></i>
-                                            </span>
-                                        </li>
-                                    @else
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ $schools->previousPageUrl() }}">
-                                                <i class="fas fa-chevron-left"></i>
-                                            </a>
-                                        </li>
-                                    @endif
-
-                                    {{-- Pages --}}
-                                    @foreach($schools->getUrlRange(1, $schools->lastPage()) as $page => $url)
-                                        @if($page == $schools->currentPage())
-                                            <li class="page-item active">
-                                                <span class="page-link">{{ $page }}</span>
-                                            </li>
-                                        @else
-                                            <li class="page-item">
-                                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                            </li>
-                                        @endif
-                                    @endforeach
-
-                                    {{-- Suivant --}}
-                                    @if($schools->hasMorePages())
-                                        <li class="page-item">
-                                            <a class="page-link" href="{{ $schools->nextPageUrl() }}">
-                                                <i class="fas fa-chevron-right"></i>
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li class="page-item disabled">
-                                            <span class="page-link">
-                                                <i class="fas fa-chevron-right"></i>
-                                            </span>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </nav>
-                        @endif
-                    </div>
+            @endforeach
+        @else
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-university fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Aucune école trouvée</h5>
+                    <p class="text-muted">Il n'y a pas encore d'écoles dans la base de données.</p>
                 </div>
             </div>
+        @endif
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="text-muted">
+            Affichage de {{ $ForeignSchool->firstItem() ?? 0 }} à {{ $ForeignSchool->lastItem() ?? 0 }} sur {{ $ForeignSchool->total() }} résultats
+        </div>
+        <div class="d-flex gap-2">
+            @if($ForeignSchool->hasPages())
+                <nav aria-label="Navigation des écoles">
+                    <ul class="pagination pagination-sm mb-0">
+                        {{-- Précédent --}}
+                        @if($ForeignSchool->onFirstPage())
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-chevron-left"></i></span>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $ForeignSchool->previousPageUrl() }}"><i class="fas fa-chevron-left"></i></a>
+                            </li>
+                        @endif
+
+                        {{-- Pages --}}
+                        @foreach($ForeignSchool->getUrlRange(1, $ForeignSchool->lastPage()) as $page => $url)
+                            @if($page == $ForeignSchool->currentPage())
+                                <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                            @else
+                                <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                            @endif
+                        @endforeach
+
+                        {{-- Suivant --}}
+                        @if($ForeignSchool->hasMorePages())
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $ForeignSchool->nextPageUrl() }}"><i class="fas fa-chevron-right"></i></a>
+                            </li>
+                        @else
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-chevron-right"></i></span>
+                            </li>
+                        @endif
+                    </ul>
+                </nav>
+            @endif
+        </div>
+    </div>
+</div>
+
         </div>
     </div>
 
@@ -354,37 +389,51 @@
             const favoriteButtons = document.querySelectorAll('.favorite-btn');
 
             // Fonction de filtrage par catégorie
-            function filterByCategory(category) {
-                let visibleCount = 0;
-                ecoleItems.forEach(item => {
-                    if (category === 'all' || item.getAttribute('data-category') === category) {
-                        item.style.display = 'block';
-                        visibleCount++;
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-                resultCount.textContent = visibleCount;
-            }
+            function filterByCategory(type) {
+    let visibleCount = 0;
+    const typeLower = type.toLowerCase().trim();
+
+    ecoleItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category')?.toLowerCase().trim();
+
+        if (typeLower === 'all' || itemCategory === typeLower) {
+            item.style.display = 'block';
+            visibleCount++;
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    resultCount.textContent = visibleCount;
+}
+
 
             // Fonction de recherche
             function searchEcoles(searchTerm) {
-                const searchLower = searchTerm.toLowerCase();
-                let visibleCount = 0;
+    const searchLower = searchTerm.toLowerCase();
+    const activeFilter = document.querySelector('[data-filter].active');
+    const filter = activeFilter ? activeFilter.getAttribute('data-filter').toLowerCase().trim() : 'all';
 
-                ecoleItems.forEach(item => {
-                    const card = item.querySelector('.card');
-                    const text = card.textContent.toLowerCase();
+    let visibleCount = 0;
 
-                    if (text.includes(searchLower)) {
-                        item.style.display = 'block';
-                        visibleCount++;
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-                resultCount.textContent = visibleCount;
-            }
+    ecoleItems.forEach(item => {
+        const card = item.querySelector('.card');
+        const text = card.textContent.toLowerCase();
+        const itemCategory = item.getAttribute('data-category')?.toLowerCase().trim();
+
+        const matchesSearch = text.includes(searchLower);
+        const matchesCategory = (filter === 'all' || itemCategory === filter);
+
+        if (matchesSearch && matchesCategory) {
+            item.style.display = 'block';
+            visibleCount++;
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    resultCount.textContent = visibleCount;
+}
 
             // Gestion des favoris
             favoriteButtons.forEach(button => {

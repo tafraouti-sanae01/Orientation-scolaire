@@ -14,6 +14,7 @@
                     <li class="nav-item"><a
                             class="nav-link {{ request()->routeIs('student.ecoles') ? 'active text-primary' : '' }}"
                             href="{{ route('student.ecoles') }}">Ecoles et universités</a></li>
+                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('student.ForeignSchool') ? 'active text-primary' : '' }}" href="{{ route('student.ForeignSchool') }}">Écoles Étrangères</a></li>
                     <li class="nav-item"><a
                             class="nav-link {{ request()->routeIs('student.concours') ? 'active text-primary' : '' }}"
                             href="{{ route('student.concours') }}">Concours</a></li>

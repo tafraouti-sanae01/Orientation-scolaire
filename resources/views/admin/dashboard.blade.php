@@ -34,6 +34,12 @@
                             <i class="fas fa-university me-2"></i>Écoles
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->routeIs('admin.foreign-schools*') ? 'bg-primary' : '' }}"
+                            href="{{ route('admin.foreign-schools.index') }}">
+                            <i class="fas fa-globe me-2"></i>Écoles Étrangères
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -63,7 +69,7 @@
                                         <p class="mb-0 small">Étudiants inscrits</p>
                                     </div>
                                     <div class="align-self-center">
-                                        <i class="fas fa-users fa-2x opacity-75"></i>
+                                        <i class="fas fa-graduation-cap fa-2x opacity-75"></i>
                                     </div>
                                 </div>
                             </div>

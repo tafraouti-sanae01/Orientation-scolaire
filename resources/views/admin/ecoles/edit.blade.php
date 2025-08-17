@@ -30,6 +30,12 @@
                         <i class="fas fa-university me-2"></i>Écoles
                     </a>
                 </li>
+                <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->routeIs('admin.foreign-schools*') ? 'bg-primary' : '' }}"
+                            href="{{ route('admin.foreign-schools.index') }}">
+                            <i class="fas fa-globe me-2"></i>Écoles Étrangères
+                        </a>
+                    </li>
             </ul>
         </div>
         
