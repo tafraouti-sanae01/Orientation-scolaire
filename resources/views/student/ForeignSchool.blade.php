@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Ecoles et universités')
+@section('title', 'Écoles Étrangères')
 
 @section('content')
     <div class="container-fluid" style="background: #f8f9fb; min-height: 100vh;">
@@ -29,200 +29,197 @@
             </div>
 
             <!-- Contenu principal -->
-<div class="col-md-10 px-4 py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1">ÉCOLES ET UNIVERSITÉS</h4>
-            <p class="text-muted mb-0">Découvrez les meilleures écoles et universités</p>
-        </div>
-        <div>
-            <input type="text" id="searchEcoles" class="form-control" placeholder="Rechercher une école..." style="width: 300px;">
-        </div>
-    </div>
-
-    <!-- Filtres par catégorie -->
-    <div class="mb-4">
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-outline-primary active" data-filter="all">Toutes</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="ingenieur">Ingénierie</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="commerce">Commerce</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="sante">Santé</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="architecture">Architecture</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="technique">Technique</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="specialise">Spécialisé</button>
-        </div>
-    </div>
-
-    <div class="mb-3 text-muted">Résultats: <span class="fw-bold" id="resultCount">{{ $ForeignSchool->total() }}</span></div>
-
-    <!-- Grille des écoles -->
-    <div class="row g-4">
-@if($ForeignSchool->count() > 0)
-            @foreach($ForeignSchool as $school)
-                <div class="col-md-6 col-lg-4 ecole-item" data-category="{{ $school->category }}">
-                    <div class="card h-100 shadow-sm border-0">
-                        <!-- En-tête avec image et nom -->
-                        <div class="card-header bg-white border-0 text-center pb-3">
-                            <div class="ForeignSchool-image-container mb-3">
-                                
-                                    <div class="ForeignSchool-logo-placeholder">
-                                        <i class="fas fa-university text-primary fa-2x"></i>
-                                    </div>
-                                
-                            </div>
-                            <h6 class="fw-bold mb-1">{{ $school->name }}</h6>
-
-                            <!-- Bouton favori -->
-                            <div class="favorite-btn">
-                                <button class="btn btn-sm btn-outline-danger border-0 favorite-btn" data-type="ecole"
-                                    data-item-id="{{ $school->id }}" data-item-name="{{ $school->name }}"
-                                    data-item-category="{{ $school->type }}" data-item-description="{{ $school->description }}" type="button">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-    <!-- Description -->
-    <p class="text-muted small mb-4">{{ Str::limit($school->description, 100) }}</p>
-
-    <!-- Détails -->
-    <div class="ForeignSchool-details row gx-2 gy-1">
-        <div class="col-6">
-            <i class="fas fa-tag text-primary me-1"></i>
-            <span class="text-muted">Catégorie:</span>
-            <span class="fw-semibold text-primary">{{ ucfirst($school->type) ?? '—' }}</span>
-        </div>
-
-        <div class="col-6">
-            <i class="fas fa-building text-success me-1"></i>
-            <span class="text-muted">Type:</span>
-            <span class="fw-semibold text-success">{{ $school->is_free ? 'Gratuite' : 'Payante' }}</span>
-        </div>
-
-        <div class="col-6">
-            <i class="fas fa-globe text-info me-1"></i>
-            <span class="text-muted">Pays:</span>
-            <span class="fw-semibold text-info">{{ $school->country }}</span>
-        </div>
-
-        <div class="col-6">
-            <i class="fas fa-map-marker-alt text-danger me-1"></i>
-            <span class="text-muted">Ville:</span>
-            <span class="fw-semibold text-danger">{{ $school->city }}</span>
-        </div>
-
-        @if($school->address)
-        <div class="col-12">
-            <i class="fas fa-location-arrow text-secondary me-1"></i>
-            <span class="text-muted">Adresse:</span>
-            <span class="fw-semibold text-secondary">{{ $school->address }}</span>
-        </div>
-        @endif
-
-        @if($school->website)
-        <div class="col-12">
-            <i class="fas fa-link text-primary me-1"></i>
-            <span class="text-muted">Site:</span>
-            <a href="{{ $school->website }}" target="_blank" class="fw-semibold text-primary">{{ $school->website }}</a>
-        </div>
-        @endif
-
-        @if($school->email)
-        <div class="col-6">
-            <i class="fas fa-envelope text-warning me-1"></i>
-            <span class="text-muted">Email:</span>
-            <span class="fw-semibold text-warning">{{ $school->email }}</span>
-        </div>
-        @endif
-
-        @if($school->phone)
-        <div class="col-6">
-            <i class="fas fa-phone text-success me-1"></i>
-            <span class="text-muted">Téléphone:</span>
-            <span class="fw-semibold text-success">{{ $school->phone }}</span>
-        </div>
-        @endif
-
-        @if($school->admission_requirements)
-        <div class="col-12">
-            <i class="fas fa-file-alt text-info me-1"></i>
-            <span class="text-muted">Admission:</span>
-            <span class="fw-semibold text-info">{{ $school->admission_requirements }}</span>
-        </div>
-        @endif
-
-        @if($school->language_requirements)
-        <div class="col-12">
-            <i class="fas fa-language text-danger me-1"></i>
-            <span class="text-muted">Langue:</span>
-            <span class="fw-semibold text-danger">{{ $school->language_requirements }}</span>
-        </div>
-        @endif
-    </div>
-</div>
-
-
+            <div class="col-md-10 px-4 py-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="fw-bold mb-1">ÉCOLES ÉTRANGÈRES</h4>
+                        <p class="text-muted mb-0">Découvrez les meilleures écoles et universités à l'étranger</p>
+                    </div>
+                    <div>
+                        <input type="text" id="searchEcoles" class="form-control" placeholder="Rechercher une école..." style="width: 300px;">
                     </div>
                 </div>
-            @endforeach
-        @else
-            <div class="col-12">
-                <div class="text-center py-5">
-                    <i class="fas fa-university fa-3x text-muted mb-3"></i>
-                    <h5 class="text-muted">Aucune école trouvée</h5>
-                    <p class="text-muted">Il n'y a pas encore d'écoles dans la base de données.</p>
+
+                <!-- Filtres par catégorie -->
+                <div class="mb-4">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary active" data-filter="all">Toutes</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="ingenieur">Ingénierie</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="commerce">Commerce</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="sante">Santé</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="architecture">Architecture</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="technique">Technique</button>
+                        <button type="button" class="btn btn-outline-primary" data-filter="specialise">Spécialisé</button>
+                    </div>
+                </div>
+
+                <div class="mb-3 text-muted">Résultats: <span class="fw-bold" id="resultCount">{{ $ForeignSchool->total() }}</span></div>
+
+                <!-- Grille des écoles -->
+                <div class="row g-4">
+                    @if($ForeignSchool->count() > 0)
+                        @foreach($ForeignSchool as $school)
+                            <div class="col-md-6 col-lg-4 ecole-item" data-category="{{ strtolower($school->type) }}">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <!-- En-tête avec image et nom -->
+                                    <div class="card-header bg-white border-0 text-center pb-3 position-relative">
+                                        <div class="school-image-container mb-3">
+                                            <div class="school-logo-placeholder">
+                                                <i class="fas fa-university text-primary fa-2x"></i>
+                                            </div>
+                                        </div>
+                                        <h6 class="fw-bold mb-1">{{ $school->name }}</h6>
+
+                                        <!-- Bouton favori -->
+                                        <div class="favorite-btn position-absolute top-0 end-0">
+                                            <button class="btn btn-sm btn-outline-danger border-0 favorite-btn" data-type="ecole_etrangere"
+                                                data-item-id="{{ $school->id }}" data-item-name="{{ $school->name }}"
+                                                data-item-category="{{ $school->type }}" data-item-description="{{ $school->description }}" type="button">
+                                                <i class="far fa-heart"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <!-- Description -->
+                                        <p class="text-muted small mb-4">{{ Str::limit($school->description, 100) }}</p>
+
+                                        <!-- Détails -->
+                                        <div class="school-details row gx-2 gy-1">
+                                            <div class="col-6">
+                                                <i class="fas fa-tag text-primary me-1"></i>
+                                                <span class="text-muted">Catégorie:</span>
+                                                <span class="fw-semibold text-primary">{{ ucfirst($school->type) ?? '—' }}</span>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <i class="fas fa-building text-success me-1"></i>
+                                                <span class="text-muted">Type:</span>
+                                                <span class="fw-semibold text-success">{{ $school->is_free ? 'Gratuite' : 'Payante' }}</span>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <i class="fas fa-globe text-info me-1"></i>
+                                                <span class="text-muted">Pays:</span>
+                                                <span class="fw-semibold text-info">{{ $school->country }}</span>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                                <span class="text-muted">Ville:</span>
+                                                <span class="fw-semibold text-danger">{{ $school->city }}</span>
+                                            </div>
+
+                                            @if($school->address)
+                                            <div class="col-12">
+                                                <i class="fas fa-location-arrow text-secondary me-1"></i>
+                                                <span class="text-muted">Adresse:</span>
+                                                <span class="fw-semibold text-secondary">{{ $school->address }}</span>
+                                            </div>
+                                            @endif
+
+                                            @if($school->website)
+                                            <div class="col-12">
+                                                <i class="fas fa-link text-primary me-1"></i>
+                                                <span class="text-muted">Site:</span>
+                                                <a href="{{ $school->website }}" target="_blank" class="fw-semibold text-primary text-decoration-none">{{ parse_url($school->website, PHP_URL_HOST) }}</a>
+                                            </div>
+                                            @endif
+
+                                            @if($school->email)
+                                            <div class="col-6">
+                                                <i class="fas fa-envelope text-warning me-1"></i>
+                                                <span class="text-muted">Email:</span>
+                                                <span class="fw-semibold text-warning">{{ $school->email }}</span>
+                                            </div>
+                                            @endif
+
+                                            @if($school->phone)
+                                            <div class="col-6">
+                                                <i class="fas fa-phone text-success me-1"></i>
+                                                <span class="text-muted">Téléphone:</span>
+                                                <span class="fw-semibold text-success">{{ $school->phone }}</span>
+                                            </div>
+                                            @endif
+
+                                            @if($school->admission_requirements)
+                                            <div class="col-12">
+                                                <i class="fas fa-file-alt text-info me-1"></i>
+                                                <span class="text-muted">Admission:</span>
+                                                <span class="fw-semibold text-info">{{ Str::limit($school->admission_requirements, 30) }}</span>
+                                            </div>
+                                            @endif
+
+                                            @if($school->language_requirements)
+                                            <div class="col-12">
+                                                <i class="fas fa-language text-danger me-1"></i>
+                                                <span class="text-muted">Langue:</span>
+                                                <span class="fw-semibold text-danger">{{ $school->language_requirements }}</span>
+                                            </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="col-12">
+                            <div class="text-center py-5">
+                                <i class="fas fa-university fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">Aucune école étrangère trouvée</h5>
+                                <p class="text-muted">Il n'y a pas encore d'écoles étrangères dans la base de données.</p>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="text-muted">
+                        Affichage de {{ $ForeignSchool->firstItem() ?? 0 }} à {{ $ForeignSchool->lastItem() ?? 0 }} sur {{ $ForeignSchool->total() }} résultats
+                    </div>
+                    <div class="d-flex gap-2">
+                        @if($ForeignSchool->hasPages())
+                            <nav aria-label="Navigation des écoles">
+                                <ul class="pagination pagination-sm mb-0">
+                                    {{-- Précédent --}}
+                                    @if($ForeignSchool->onFirstPage())
+                                        <li class="page-item disabled">
+                                            <span class="page-link"><i class="fas fa-chevron-left"></i></span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $ForeignSchool->previousPageUrl() }}"><i class="fas fa-chevron-left"></i></a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Pages --}}
+                                    @foreach($ForeignSchool->getUrlRange(1, $ForeignSchool->lastPage()) as $page => $url)
+                                        @if($page == $ForeignSchool->currentPage())
+                                            <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- Suivant --}}
+                                    @if($ForeignSchool->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $ForeignSchool->nextPageUrl() }}"><i class="fas fa-chevron-right"></i></a>
+                                        </li>
+                                    @else
+                                        <li class="page-item disabled">
+                                            <span class="page-link"><i class="fas fa-chevron-right"></i></span>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        @endif
+                    </div>
                 </div>
             </div>
-        @endif
-    </div>
-
-    <!-- Pagination -->
-    <div class="d-flex justify-content-between align-items-center mt-4">
-        <div class="text-muted">
-            Affichage de {{ $ForeignSchool->firstItem() ?? 0 }} à {{ $ForeignSchool->lastItem() ?? 0 }} sur {{ $ForeignSchool->total() }} résultats
-        </div>
-        <div class="d-flex gap-2">
-            @if($ForeignSchool->hasPages())
-                <nav aria-label="Navigation des écoles">
-                    <ul class="pagination pagination-sm mb-0">
-                        {{-- Précédent --}}
-                        @if($ForeignSchool->onFirstPage())
-                            <li class="page-item disabled">
-                                <span class="page-link"><i class="fas fa-chevron-left"></i></span>
-                            </li>
-                        @else
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $ForeignSchool->previousPageUrl() }}"><i class="fas fa-chevron-left"></i></a>
-                            </li>
-                        @endif
-
-                        {{-- Pages --}}
-                        @foreach($ForeignSchool->getUrlRange(1, $ForeignSchool->lastPage()) as $page => $url)
-                            @if($page == $ForeignSchool->currentPage())
-                                <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
-                            @else
-                                <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
-                            @endif
-                        @endforeach
-
-                        {{-- Suivant --}}
-                        @if($ForeignSchool->hasMorePages())
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $ForeignSchool->nextPageUrl() }}"><i class="fas fa-chevron-right"></i></a>
-                            </li>
-                        @else
-                            <li class="page-item disabled">
-                                <span class="page-link"><i class="fas fa-chevron-right"></i></span>
-                            </li>
-                        @endif
-                    </ul>
-                </nav>
-            @endif
-        </div>
-    </div>
-</div>
-
         </div>
     </div>
 
@@ -278,12 +275,6 @@
         .card:hover .school-logo-placeholder {
             border-color: #0d6efd;
             transform: scale(1.05);
-        }
-
-        .favorite-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
         }
 
         .favorite-btn .btn {
@@ -388,50 +379,34 @@
 
             // Fonction de filtrage par catégorie
             function filterByCategory(type) {
-    let visibleCount = 0;
-    const typeLower = type.toLowerCase().trim();
-
-    ecoleItems.forEach(item => {
-        const itemCategory = item.getAttribute('data-category')?.toLowerCase().trim();
-
-        if (typeLower === 'all' || itemCategory === typeLower) {
-            item.style.display = 'block';
-            visibleCount++;
-        } else {
-            item.style.display = 'none';
-        }
-    });
-
-    resultCount.textContent = visibleCount;
-}
-
+                let visibleCount = 0;
+                
+                ecoleItems.forEach(item => {
+                    const itemCategory = item.getAttribute('data-category')?.toLowerCase().trim();
+                    const searchTerm = searchInput.value.toLowerCase().trim();
+                    const cardText = item.textContent.toLowerCase();
+                    
+                    const matchesCategory = type.toLowerCase() === 'all' || itemCategory === type.toLowerCase();
+                    const matchesSearch = searchTerm === '' || cardText.includes(searchTerm);
+                    
+                    if (matchesCategory && matchesSearch) {
+                        item.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                resultCount.textContent = visibleCount;
+            }
 
             // Fonction de recherche
             function searchEcoles(searchTerm) {
-    const searchLower = searchTerm.toLowerCase();
-    const activeFilter = document.querySelector('[data-filter].active');
-    const filter = activeFilter ? activeFilter.getAttribute('data-filter').toLowerCase().trim() : 'all';
-
-    let visibleCount = 0;
-
-    ecoleItems.forEach(item => {
-        const card = item.querySelector('.card');
-        const text = card.textContent.toLowerCase();
-        const itemCategory = item.getAttribute('data-category')?.toLowerCase().trim();
-
-        const matchesSearch = text.includes(searchLower);
-        const matchesCategory = (filter === 'all' || itemCategory === filter);
-
-        if (matchesSearch && matchesCategory) {
-            item.style.display = 'block';
-            visibleCount++;
-        } else {
-            item.style.display = 'none';
-        }
-    });
-
-    resultCount.textContent = visibleCount;
-}
+                const activeFilter = document.querySelector('[data-filter].active');
+                const filter = activeFilter ? activeFilter.getAttribute('data-filter').toLowerCase().trim() : 'all';
+                
+                filterByCategory(filter);
+            }
 
             // Gestion des favoris
             favoriteButtons.forEach(button => {
@@ -459,91 +434,71 @@
                             item_description: itemDescription
                         })
                     })
-                        .then(response => {
-                            if (!response.ok) {
-                                return;
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.success) {
-                                // Toggle de l'état visuel
-                                this.classList.toggle('favorited');
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur réseau');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            // Toggle de l'état visuel
+                            this.classList.toggle('favorited');
 
-                                const icon = this.querySelector('i');
-                                if (this.classList.contains('favorited')) {
-                                    icon.className = 'fas fa-heart';
-                                } else {
-                                    icon.className = 'far fa-heart';
-                                }
+                            const icon = this.querySelector('i');
+                            icon.classList.toggle('far');
+                            icon.classList.toggle('fas');
 
-                                // Afficher un message de confirmation
-                                const toast = document.createElement('div');
-                                toast.className = 'position-fixed top-0 end-0 p-3';
-                                toast.style.zIndex = '9999';
-                                toast.innerHTML = `
-                                                    <div class="toast show" role="alert">
-                                                        <div class="toast-header">
-                                                            <i class="fas fa-heart text-danger me-2"></i>
-                                                            <strong class="me-auto">Favoris</strong>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                                                        </div>
-                                                        <div class="toast-body">
-                                                            ${data.message}
-                                                        </div>
-                                                    </div>
-                                                `;
-                                document.body.appendChild(toast);
+                            // Afficher un toast de confirmation
+                            const toast = new bootstrap.Toast(document.createElement('div'));
+                            const toastElement = document.createElement('div');
+                            toastElement.className = 'position-fixed top-0 end-0 p-3';
+                            toastElement.style.zIndex = '9999';
+                            toastElement.innerHTML = `
+                                <div class="toast show" role="alert">
+                                    <div class="toast-header">
+                                        <i class="fas fa-heart text-danger me-2"></i>
+                                        <strong class="me-auto">Favoris</strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        ${data.message}
+                                    </div>
+                                </div>
+                            `;
+                            document.body.appendChild(toastElement);
 
-                                // Supprimer le toast après 3 secondes
-                                setTimeout(() => {
-                                    toast.remove();
-                                }, 3000);
-
-                                // Déclencher l'événement de mise à jour des favoris
-                                window.dispatchEvent(new Event('favoriteUpdated'));
-                            } else {
-                                throw new Error(data.message || 'Erreur inconnue');
-                            }
-                        })
-                        .catch(error => {
-                            return;
-                        })
-                        .finally(() => {
-                            // Réactiver le bouton
-                            this.disabled = false;
-                        });
+                            // Supprimer le toast après 3 secondes
+                            setTimeout(() => {
+                                toastElement.remove();
+                            }, 3000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                    })
+                    .finally(() => {
+                        // Réactiver le bouton
+                        this.disabled = false;
+                    });
                 });
             });
 
             // Événements pour les filtres par catégorie
             filterButtons.forEach(button => {
                 button.addEventListener('click', function () {
-                    const filter = this.getAttribute('data-filter');
-
                     // Mettre à jour les boutons actifs
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Réinitialiser la recherche
-                    searchInput.value = '';
-
                     // Appliquer le filtre
-                    filterByCategory(filter);
+                    filterByCategory(this.getAttribute('data-filter'));
                 });
             });
 
             // Événement pour la recherche
             searchInput.addEventListener('input', function () {
-                const searchTerm = this.value.trim();
-
-                if (searchTerm === '') {
-                    const activeFilter = document.querySelector('[data-filter].active');
-                    const filter = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
-                    filterByCategory(filter);
-                } else {
-                    searchEcoles(searchTerm);
-                }
+                searchEcoles(this.value.trim());
             });
 
             // Initialiser le compteur
