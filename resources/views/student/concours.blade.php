@@ -5,40 +5,7 @@
 <div class="container-fluid bg-light min-vh-100">
     <div class="row">
         <!-- Menu latéral -->
-        <div class="col-md-2 d-none d-md-block bg-white shadow-sm p-0">
-            <ul class="nav flex-column mt-4">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('dashboard') ? 'active text-primary' : '' }}" href="{{ route('dashboard') }}">
-                        Accueil
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('student.ecoles') ? 'active text-primary' : '' }}" href="{{ route('student.ecoles') }}">
-                        Écoles et universités
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('student.ForeignSchool') ? 'active text-primary' : '' }}" href="{{ route('student.ForeignSchool') }}">
-                        Écoles étrangères
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('student.concours') ? 'active text-primary' : '' }}" href="{{ route('student.concours') }}">
-                        Concours
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('student.profil') ? 'active text-primary' : '' }}" href="{{ route('student.profil') }}">
-                        Mon Profil
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('student.parametres') ? 'active text-primary' : '' }}" href="{{ route('student.parametres') }}">
-                        Paramètres
-                    </a>
-                </li>
-            </ul>
-        </div>
+        @include('components.student-sidebar')
         
         <!-- Contenu principal -->
         
@@ -141,11 +108,11 @@
                             
                             <!-- Badges d'état -->
                             <div class="mb-3">
-                                @if($isOpen)
+                                {{-- @if($isOpen) 
                                     <span class="badge bg-success me-1 mb-1">Inscriptions ouvertes</span>
                                 @else
                                     <span class="badge bg-danger me-1 mb-1">Inscriptions fermées</span>
-                                @endif
+                                @endif --}}
                                 
                                 @if($conc->epreuve)
                                     <span class="badge bg-info me-1 mb-1">Épreuves: {{ $conc->epreuve }}</span>

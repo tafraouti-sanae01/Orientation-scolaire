@@ -1,100 +1,158 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="{{ route('dashboard') }}">
+            <img src="{{ asset('images/logo.jpg') }}" alt="Tawjih Logo" width="40" height="40" class="me-3 rounded">
+            <div>
+                <span class="fw-bold fs-4 text-dark">Tawjih</span>
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-success text-white" style="font-size: 10px;">ORIENTATION</span>
                 </div>
             </div>
+        </a>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+        <!-- Navigation Links (Desktop) -->
+        <div class="navbar-nav me-auto d-none d-lg-flex">
+            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active fw-semibold text-primary' : 'text-muted' }}" href="{{ route('dashboard') }}">
+                <i class="fas fa-home me-2"></i>Accueil
+            </a>
+            <a class="nav-link {{ request()->routeIs('student.ecoles') ? 'active fw-semibold text-primary' : 'text-muted' }}" href="{{ route('student.ecoles') }}">
+                <i class="fas fa-university me-2"></i>Écoles
+            </a>
+            <a class="nav-link {{ request()->routeIs('student.ForeignSchool') ? 'active fw-semibold text-primary' : 'text-muted' }}" href="{{ route('student.ForeignSchool') }}">
+                <i class="fas fa-globe me-2"></i>Écoles Étrangères
+            </a>
+            <a class="nav-link {{ request()->routeIs('student.concours') ? 'active fw-semibold text-primary' : 'text-muted' }}" href="{{ route('student.concours') }}">
+                <i class="fas fa-trophy me-2"></i>Concours
+            </a>
+        </div>
 
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
+        <!-- Right side -->
+        <div class="d-flex align-items-center">
+            <!-- User Menu -->
+            <div class="dropdown">
+                <button class="btn btn-link text-dark d-flex align-items-center p-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
+                        <span class="text-white fw-medium">{{ substr(Auth::user()->name ?? 'U', 0, 1) }}</span>
+                    </div>
+                    <div class="d-none d-md-block text-start">
+                        <div class="small fw-medium">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
+                        <div class="small text-muted">{{ Auth::user()->email }}</div>
+                    </div>
+                    <i class="fas fa-chevron-down text-muted ms-2"></i>
+                </button>
+
+                <!-- User dropdown -->
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <div class="dropdown-item d-flex align-items-center p-3 border-bottom">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                <span class="text-white fw-medium">{{ substr(Auth::user()->name ?? 'U', 0, 1) }}</span>
                             </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
+                            <div>
+                                <div class="fw-medium">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
+                                <div class="small text-muted">{{ Auth::user()->email }}</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{ route('student.profil') }}">
+                        <i class="fas fa-user me-3 text-muted"></i>
+                        Mon Profil
+                    </a></li>
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{ route('student.parametres') }}">
+                        <i class="fas fa-cog me-3 text-muted"></i>
+                        Paramètres
+                    </a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            <button type="submit" class="dropdown-item d-flex align-items-center text-danger">
+                                <i class="fas fa-sign-out-alt me-3"></i>
+                                Se déconnecter
+                            </button>
                         </form>
-                    </x-slot>
-                </x-dropdown>
+                    </li>
+                </ul>
             </div>
 
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+            <!-- Mobile menu button -->
+            <button class="navbar-toggler d-lg-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
+    <!-- Mobile Navigation Menu -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('dashboard') ? 'active fw-semibold text-primary' : '' }}" href="{{ route('dashboard') }}">
+                    <i class="fas fa-home me-3"></i>Accueil
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('student.ecoles') ? 'active fw-semibold text-primary' : '' }}" href="{{ route('student.ecoles') }}">
+                    <i class="fas fa-university me-3"></i>Écoles
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('student.ForeignSchool') ? 'active fw-semibold text-primary' : '' }}" href="{{ route('student.ForeignSchool') }}">
+                    <i class="fas fa-globe me-3"></i>Écoles Étrangères
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('student.concours') ? 'active fw-semibold text-primary' : '' }}" href="{{ route('student.concours') }}">
+                    <i class="fas fa-trophy me-3"></i>Concours
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('student.profil*') ? 'active fw-semibold text-primary' : '' }}" href="{{ route('student.profil') }}">
+                    <i class="fas fa-user me-3"></i>Mon Profil
+                </a>
+            </li>
+        </ul>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+        <!-- Mobile user menu -->
+        <div class="border-top pt-3 mt-3">
+            <div class="d-flex align-items-center px-3 mb-3">
+                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                    <span class="text-white fw-medium">{{ substr(Auth::user()->name ?? 'U', 0, 1) }}</span>
+                </div>
+                <div>
+                    <div class="fw-medium">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
+                    <div class="small text-muted">{{ Auth::user()->email }}</div>
+                </div>
             </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" href="{{ route('student.parametres') }}">
+                        <i class="fas fa-cog me-3"></i>
+                        Paramètres
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="nav-link d-flex align-items-center text-danger border-0 bg-transparent">
+                            <i class="fas fa-sign-out-alt me-3"></i>
+                            Se déconnecter
+                        </button>
+                    </form>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
+
+<style>
+.navbar-nav .nav-link:hover {
+    color: #0d6efd !important;
+}
+
+.navbar-nav .nav-link.active {
+    color: #0d6efd !important;
+    background-color: rgba(13, 110, 253, 0.1);
+    border-radius: 0.375rem;
+}
+</style>

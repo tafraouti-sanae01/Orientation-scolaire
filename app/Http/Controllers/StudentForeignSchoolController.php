@@ -13,7 +13,7 @@ class StudentForeignSchoolController extends Controller
     public function index()
 {
     try {
-        $ForeignSchool = ForeignSchool::paginate(12);
+        $ForeignSchool = ForeignSchool::paginate(9);
         return view('student.ForeignSchool', compact('ForeignSchool'));
     } catch (\Exception $e) {
         $ForeignSchool = collect();

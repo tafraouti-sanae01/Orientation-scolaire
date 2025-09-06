@@ -5,26 +5,7 @@
     <div class="container-fluid" style="background: #f8f9fb; min-height: 100vh;">
         <div class="row">
             <!-- Menu latéral -->
-            <div class="col-md-2 d-none d-md-block bg-white shadow-sm p-0" style="min-height: 100vh;">
-                <ul class="nav flex-column mt-4">
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('dashboard') ? 'active text-primary' : '' }}"
-                            href="{{ route('dashboard') }}">Accueil</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.ecoles') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.ecoles') }}">Ecoles et universités</a></li>
-                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('student.ForeignSchool') ? 'active text-primary' : '' }}" href="{{ route('student.ForeignSchool') }}">Écoles Étrangères</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.concours') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.concours') }}">Concours</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.profil') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.profil') }}">Mon Profil</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.parametres') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.parametres') }}">Paramètres</a></li>
-                </ul>
-            </div>
+            @include('components.student-sidebar')
             <!-- Contenu principal -->
             <div class="col-md-10 px-4 py-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">

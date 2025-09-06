@@ -2,196 +2,251 @@
 @section('title', 'Écoles Étrangères')
 
 @section('content')
-    <div class="container-fluid" style="background: #f8f9fb; min-height: 100vh;">
+    <div class="container-fluid" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh;">
         <div class="row">
             <!-- Menu latéral -->
-            <div class="col-md-2 d-none d-md-block bg-white shadow-sm p-0" style="min-height: 100vh;">
-                <ul class="nav flex-column mt-4">
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('dashboard') ? 'active text-primary' : '' }}"
-                            href="{{ route('dashboard') }}">Accueil</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.ecoles') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.ecoles') }}">Ecoles et universités</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.ForeignSchool') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.ForeignSchool') }}">Écoles Étrangères</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.concours') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.concours') }}">Concours</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.profil') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.profil') }}">Mon Profil</a></li>
-                    <li class="nav-item"><a
-                            class="nav-link {{ request()->routeIs('student.parametres') ? 'active text-primary' : '' }}"
-                            href="{{ route('student.parametres') }}">Paramètres</a></li>
-                </ul>
-            </div>
+            @include('components.student-sidebar')
 
             <!-- Contenu principal -->
             <div class="col-md-10 px-4 py-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <!-- En-tête amélioré -->
+                <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 class="fw-bold mb-1">ÉCOLES ÉTRANGÈRES</h4>
-                        <p class="text-muted mb-0">Découvrez les meilleures écoles et universités à l'étranger</p>
+                            <h3 class="fw-bold mb-2 text-gradient">🌍 ÉCOLES ÉTRANGÈRES</h3>
+                            <p class="text-muted mb-0">Découvrez les meilleures opportunités d'études à l'international</p>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="position-relative">
+                                <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                <input type="text" id="searchEcoles" class="form-control ps-5" placeholder="Rechercher une école..." style="width: 300px; border-radius: 25px;">
+                            </div>
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-globe text-primary fs-4"></i>
+                            </div>
                     </div>
-                    <div>
-                        <input type="text" id="searchEcoles" class="form-control" placeholder="Rechercher une école..." style="width: 300px;">
                     </div>
                 </div>
 
-                <!-- Filtres par catégorie -->
-                <div class="mb-4">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-primary active" data-filter="all">Toutes</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="ingenieur">Ingénierie</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="commerce">Commerce</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="sante">Santé</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="architecture">Architecture</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="technique">Technique</button>
-                        <button type="button" class="btn btn-outline-primary" data-filter="specialise">Spécialisé</button>
+                <!-- Filtres améliorés -->
+                <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+                    <h6 class="fw-bold mb-3 text-dark">Filtrer par catégorie</h6>
+                    <div class="btn-group flex-wrap" role="group">
+                        <button type="button" class="btn btn-outline-primary active rounded-pill me-2 mb-2" data-filter="all">
+                            <i class="fas fa-th me-1"></i>Toutes
+                        </button>
+                        <button type="button" class="btn btn-outline-primary rounded-pill me-2 mb-2" data-filter="ingenieur">
+                            <i class="fas fa-cogs me-1"></i>Ingénierie
+                        </button>
+                        <button type="button" class="btn btn-outline-primary rounded-pill me-2 mb-2" data-filter="commerce">
+                            <i class="fas fa-chart-line me-1"></i>Commerce
+                        </button>
+                        <button type="button" class="btn btn-outline-primary rounded-pill me-2 mb-2" data-filter="sante">
+                            <i class="fas fa-heartbeat me-1"></i>Santé
+                        </button>
+                        <button type="button" class="btn btn-outline-primary rounded-pill me-2 mb-2" data-filter="architecture">
+                            <i class="fas fa-building me-1"></i>Architecture
+                        </button>
+                        <button type="button" class="btn btn-outline-primary rounded-pill me-2 mb-2" data-filter="technique">
+                            <i class="fas fa-tools me-1"></i>Technique
+                        </button>
+                        <button type="button" class="btn btn-outline-primary rounded-pill me-2 mb-2" data-filter="specialise">
+                            <i class="fas fa-star me-1"></i>Spécialisé
+                        </button>
                     </div>
                 </div>
 
-                <div class="mb-3 text-muted">Résultats: <span class="fw-bold" id="resultCount">{{ $ForeignSchool->total() }}</span></div>
+                <!-- Statistiques -->
+                <div class="bg-white rounded-4 shadow-sm p-3 mb-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-university text-primary me-2"></i>
+                            <span class="text-muted">Résultats: <span class="fw-bold text-primary" id="resultCount">{{ $ForeignSchool->total() }}</span> écoles</span>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="text-center">
+                                <div class="fw-bold text-success">{{ $ForeignSchool->where('is_free', true)->count() }}</div>
+                                <small class="text-muted">Gratuites</small>
+                            </div>
+                            <div class="text-center">
+                                <div class="fw-bold text-info">{{ $ForeignSchool->unique('country')->count() }}</div>
+                                <small class="text-muted">Pays</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Grille des écoles -->
+                <!-- Grille des écoles améliorée -->
                 <div class="row g-4">
                     @if($ForeignSchool->count() > 0)
                         @foreach($ForeignSchool as $school)
                             <div class="col-md-6 col-lg-4 ecole-item" data-category="{{ strtolower($school->type) }}">
-                                <div class="card h-100 shadow-sm border-0">
-                                    <!-- En-tête avec image et nom -->
-                                    <div class="card-header bg-white border-0 text-center pb-3 position-relative">
-                                        <div class="school-image-container mb-3">
-                                            <div class="school-logo-placeholder">
-                                                <i class="fas fa-university text-primary fa-2x"></i>
+                                <div class="card h-100 border-0 shadow-sm hover-lift">
+                                    <!-- En-tête avec image et badges -->
+                                    <div class="card-header bg-gradient-primary text-white border-0 position-relative" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <div class="school-logo-placeholder bg-white bg-opacity-20 rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                                <i class="fas fa-university text-white fs-3"></i>
                                             </div>
-                                        </div>
-                                        <h6 class="fw-bold mb-1">{{ $school->name }}</h6>
-
-                                        <!-- Bouton favori -->
-                                        <div class="favorite-btn position-absolute top-0 end-0">
-                                            <button class="btn btn-sm btn-outline-danger border-0 favorite-btn" data-type="ecole_etrangere"
-                                                data-item-id="{{ $school->id }}" data-item-name="{{ $school->name }}"
-                                                data-item-category="{{ $school->type }}" data-item-description="{{ $school->description }}" type="button">
+                                            <div class="d-flex flex-column align-items-end">
+                                                <span class="badge bg-{{ $school->is_free ? 'success' : 'warning' }} text-white mb-1">
+                                                    {{ $school->is_free ? 'Gratuite' : 'Payante' }}
+                                                </span>
+                                                <button class="btn btn-sm btn-outline-light border-0 favorite-btn" 
+                                                        data-type="ecole_etrangere"
+                                                        data-item-id="{{ $school->id }}" 
+                                                        data-item-name="{{ $school->name }}"
+                                                        data-item-category="{{ $school->type }}" 
+                                                        data-item-description="{{ $school->description }}" 
+                                                        type="button">
                                                 <i class="far fa-heart"></i>
                                             </button>
+                                            </div>
+                                        </div>
+                                        <h5 class="fw-bold mb-1">{{ $school->name }}</h5>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-map-marker-alt me-2"></i>
+                                            <span>{{ $school->city }}, {{ $school->country }}</span>
                                         </div>
                                     </div>
 
-                                    <div class="card-body">
+                                    <div class="card-body p-4">
                                         <!-- Description -->
-                                        <p class="text-muted small mb-4">{{ Str::limit($school->description, 100) }}</p>
+                                        <p class="text-muted mb-4">{{ Str::limit($school->description, 120) }}</p>
 
-                                        <!-- Détails -->
-                                        <div class="school-details row gx-2 gy-1">
-                                            <div class="col-6">
-                                                <i class="fas fa-tag text-primary me-1"></i>
-                                                <span class="text-muted">Catégorie:</span>
-                                                <span class="fw-semibold text-primary">{{ ucfirst($school->type) ?? '—' }}</span>
+                                        <!-- Détails organisés -->
+                                        <div class="school-details">
+                                            <!-- Catégorie -->
+                                            <div class="detail-item mb-3">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px;">
+                                                        <i class="fas fa-tag text-primary"></i>
+                                            </div>
+                                                    <div>
+                                                        <small class="text-muted d-block">Catégorie</small>
+                                                        <span class="fw-semibold text-dark">{{ ucfirst($school->type) ?? '—' }}</span>
+                                            </div>
+                                            </div>
                                             </div>
 
-                                            <div class="col-6">
-                                                <i class="fas fa-building text-success me-1"></i>
-                                                <span class="text-muted">Type:</span>
-                                                <span class="fw-semibold text-success">{{ $school->is_free ? 'Gratuite' : 'Payante' }}</span>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <i class="fas fa-globe text-info me-1"></i>
-                                                <span class="text-muted">Pays:</span>
-                                                <span class="fw-semibold text-info">{{ $school->country }}</span>
-                                            </div>
-
-                                            <div class="col-6">
-                                                <i class="fas fa-map-marker-alt text-danger me-1"></i>
-                                                <span class="text-muted">Ville:</span>
-                                                <span class="fw-semibold text-danger">{{ $school->city }}</span>
-                                            </div>
-
-                                            @if($school->address)
-                                            <div class="col-12">
-                                                <i class="fas fa-location-arrow text-secondary me-1"></i>
-                                                <span class="text-muted">Adresse:</span>
-                                                <span class="fw-semibold text-secondary">{{ $school->address }}</span>
-                                            </div>
-                                            @endif
-
+                                            <!-- Contact -->
+                                            <div class="row g-3 mb-3">
                                             @if($school->website)
                                             <div class="col-12">
-                                                <i class="fas fa-link text-primary me-1"></i>
-                                                <span class="text-muted">Site:</span>
-                                                <a href="{{ $school->website }}" target="_blank" class="fw-semibold text-primary text-decoration-none">{{ parse_url($school->website, PHP_URL_HOST) }}</a>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px;">
+                                                            <i class="fas fa-link text-success"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <small class="text-muted d-block">Site web</small>
+                                                            <a href="{{ $school->website }}" target="_blank" class="fw-semibold text-success text-decoration-none">
+                                                                {{ parse_url($school->website, PHP_URL_HOST) }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                             </div>
                                             @endif
 
                                             @if($school->email)
                                             <div class="col-6">
-                                                <i class="fas fa-envelope text-warning me-1"></i>
-                                                <span class="text-muted">Email:</span>
-                                                <span class="fw-semibold text-warning">{{ $school->email }}</span>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px;">
+                                                            <i class="fas fa-envelope text-warning"></i>
+                                                        </div>
+                                                        <div>
+                                                            <small class="text-muted d-block">Email</small>
+                                                            <span class="fw-semibold text-dark small">{{ Str::limit($school->email, 20) }}</span>
+                                                        </div>
+                                                    </div>
                                             </div>
                                             @endif
 
                                             @if($school->phone)
                                             <div class="col-6">
-                                                <i class="fas fa-phone text-success me-1"></i>
-                                                <span class="text-muted">Téléphone:</span>
-                                                <span class="fw-semibold text-success">{{ $school->phone }}</span>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px;">
+                                                            <i class="fas fa-phone text-info"></i>
+                                                        </div>
+                                                        <div>
+                                                            <small class="text-muted d-block">Téléphone</small>
+                                                            <span class="fw-semibold text-dark small">{{ $school->phone }}</span>
+                                                        </div>
+                                                    </div>
                                             </div>
                                             @endif
-
-                                            @if($school->admission_requirements)
-                                            <div class="col-12">
-                                                <i class="fas fa-file-alt text-info me-1"></i>
-                                                <span class="text-muted">Admission:</span>
-                                                <span class="fw-semibold text-info">{{ Str::limit($school->admission_requirements, 30) }}</span>
                                             </div>
-                                            @endif
 
+                                            <!-- Langue -->
                                             @if($school->language_requirements)
-                                            <div class="col-12">
-                                                <i class="fas fa-language text-danger me-1"></i>
-                                                <span class="text-muted">Langue:</span>
-                                                <span class="fw-semibold text-danger">{{ $school->language_requirements }}</span>
+                                            <div class="detail-item">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px;">
+                                                        <i class="fas fa-language text-danger"></i>
+                                                    </div>
+                                                    <div>
+                                                        <small class="text-muted d-block">Langue requise</small>
+                                                        <span class="fw-semibold text-dark">{{ $school->language_requirements }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                             @endif
                                         </div>
                                     </div>
                                     
-                                    
+                                    <!-- Footer avec actions -->
+                                    <div class="card-footer bg-light border-0 p-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex align-items-center">
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                @if($school->website)
+                                                <a href="{{ $school->website }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-external-link-alt me-1"></i>Site officiel
+                                                </a>
+                                                @endif
+                                                <button class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-info-circle me-1"></i>Détails
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
                     @else
                         <div class="col-12">
-                            <div class="text-center py-5">
-                                <i class="fas fa-university fa-3x text-muted mb-3"></i>
-                                <h5 class="text-muted">Aucune école étrangère trouvée</h5>
-                                <p class="text-muted">Il n'y a pas encore d'écoles étrangères dans la base de données.</p>
+                            <div class="bg-white rounded-4 shadow-sm p-5 text-center">
+                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
+                                    <i class="fas fa-university fa-3x text-muted"></i>
+                                </div>
+                                <h5 class="text-muted mb-3">Aucune école étrangère trouvée</h5>
+                                <p class="text-muted mb-4">Il n'y a pas encore d'écoles étrangères dans la base de données.</p>
+                                <button class="btn btn-primary rounded-pill">
+                                    <i class="fas fa-plus me-2"></i>Ajouter une école
+                                </button>
                             </div>
                         </div>
                     @endif
                 </div>
 
-                <!-- Pagination -->
-                <div class="d-flex justify-content-between align-items-center mt-4">
+                <!-- Pagination améliorée -->
+                @if($ForeignSchool->hasPages())
+                <div class="bg-white rounded-4 shadow-sm p-4 mt-4">
+                    <div class="d-flex justify-content-between align-items-center">
                     <div class="text-muted">
+                            <i class="fas fa-list me-2"></i>
                         Affichage de {{ $ForeignSchool->firstItem() ?? 0 }} à {{ $ForeignSchool->lastItem() ?? 0 }} sur {{ $ForeignSchool->total() }} résultats
                     </div>
-                    <div class="d-flex gap-2">
-                        @if($ForeignSchool->hasPages())
                             <nav aria-label="Navigation des écoles">
                                 <ul class="pagination pagination-sm mb-0">
                                     {{-- Précédent --}}
                                     @if($ForeignSchool->onFirstPage())
                                         <li class="page-item disabled">
-                                            <span class="page-link"><i class="fas fa-chevron-left"></i></span>
+                                        <span class="page-link rounded-start"><i class="fas fa-chevron-left"></i></span>
                                         </li>
                                     @else
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $ForeignSchool->previousPageUrl() }}"><i class="fas fa-chevron-left"></i></a>
+                                        <a class="page-link rounded-start" href="{{ $ForeignSchool->previousPageUrl() }}"><i class="fas fa-chevron-left"></i></a>
                                         </li>
                                     @endif
 
@@ -207,313 +262,114 @@
                                     {{-- Suivant --}}
                                     @if($ForeignSchool->hasMorePages())
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $ForeignSchool->nextPageUrl() }}"><i class="fas fa-chevron-right"></i></a>
+                                        <a class="page-link rounded-end" href="{{ $ForeignSchool->nextPageUrl() }}"><i class="fas fa-chevron-right"></i></a>
                                         </li>
                                     @else
                                         <li class="page-item disabled">
-                                            <span class="page-link"><i class="fas fa-chevron-right"></i></span>
+                                        <span class="page-link rounded-end"><i class="fas fa-chevron-right"></i></span>
                                         </li>
                                     @endif
                                 </ul>
                             </nav>
-                        @endif
                     </div>
                 </div>
+                        @endif
             </div>
         </div>
     </div>
 
     <style>
-        .card {
-            transition: all 0.3s ease;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            position: relative;
-        }
-
-        .school-image-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .school-logo {
-            border: 3px solid #e9ecef;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 100%;
-            height: auto;
-        }
-
-        .card:hover .school-logo {
-            border-color: #0d6efd;
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .school-logo-placeholder {
-            width: 80px;
-            height: 80px;
-            border: 3px solid #e9ecef;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    .text-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hover-lift {
             transition: all 0.3s ease;
         }
 
-        .card:hover .school-logo-placeholder {
-            border-color: #0d6efd;
-            transform: scale(1.05);
-        }
-
-        .favorite-btn .btn {
-            transition: all 0.3s ease;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .favorite-btn .btn:hover {
-            background-color: #dc3545;
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .favorite-btn .btn.favorited {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .favorite-btn .btn.favorited i {
-            animation: heartBeat 0.6s ease-in-out;
-        }
-
-        @keyframes heartBeat {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.2);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .school-details {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    }
+    
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .detail-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-        .detail-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .detail-item i {
-            width: 16px;
-            text-align: center;
+        transition: all 0.2s ease;
+    }
+    
+    .detail-item:hover {
+        transform: translateX(5px);
         }
 
         .btn-group .btn {
-            border-radius: 20px;
-            margin-right: 5px;
-        }
-
-        .btn-group .btn.active {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-            color: white;
-        }
-
-        .pagination .page-link {
-            border-radius: 8px;
-            margin: 0 2px;
-            border: none;
-            color: #6c757d;
-        }
-
-        .pagination .page-item.active .page-link {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-        }
-
-        .nav-link.active {
-            background-color: #e3f2fd !important;
-            border-radius: 8px;
-            font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-group .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
     </style>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        // Script de recherche et filtrage
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchEcoles');
             const filterButtons = document.querySelectorAll('[data-filter]');
             const ecoleItems = document.querySelectorAll('.ecole-item');
-            const searchInput = document.getElementById('searchEcoles');
             const resultCount = document.getElementById('resultCount');
-            const favoriteButtons = document.querySelectorAll('.favorite-btn');
 
-            // Fonction de filtrage par catégorie
-            function filterByCategory(type) {
+            // Fonction de recherche
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase();
                 let visibleCount = 0;
                 
                 ecoleItems.forEach(item => {
-                    const itemCategory = item.getAttribute('data-category')?.toLowerCase().trim();
-                    const searchTerm = searchInput.value.toLowerCase().trim();
-                    const cardText = item.textContent.toLowerCase();
+                    const schoolName = item.querySelector('h5').textContent.toLowerCase();
+                    const schoolCountry = item.querySelector('.text-muted').textContent.toLowerCase();
+                    const isVisible = schoolName.includes(searchTerm) || schoolCountry.includes(searchTerm);
                     
-                    const matchesCategory = type.toLowerCase() === 'all' || itemCategory === type.toLowerCase();
-                    const matchesSearch = searchTerm === '' || cardText.includes(searchTerm);
-                    
-                    if (matchesCategory && matchesSearch) {
-                        item.style.display = 'block';
-                        visibleCount++;
-                    } else {
-                        item.style.display = 'none';
-                    }
+                    item.style.display = isVisible ? 'block' : 'none';
+                    if (isVisible) visibleCount++;
                 });
                 
                 resultCount.textContent = visibleCount;
             }
 
-            // Fonction de recherche
-            function searchEcoles(searchTerm) {
-                const activeFilter = document.querySelector('[data-filter].active');
-                const filter = activeFilter ? activeFilter.getAttribute('data-filter').toLowerCase().trim() : 'all';
-                
-                filterByCategory(filter);
+            // Fonction de filtrage
+            function performFilter(category) {
+                let visibleCount = 0;
+
+                ecoleItems.forEach(item => {
+                    const itemCategory = item.getAttribute('data-category');
+                    const isVisible = category === 'all' || itemCategory === category;
+                    
+                    item.style.display = isVisible ? 'block' : 'none';
+                    if (isVisible) visibleCount++;
+                });
+
+                resultCount.textContent = visibleCount;
             }
 
-            // Gestion des favoris
-            favoriteButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const type = this.getAttribute('data-type');
-                    const itemId = this.getAttribute('data-item-id');
-                    const itemName = this.getAttribute('data-item-name');
-                    const itemCategory = this.getAttribute('data-item-category');
-                    const itemDescription = this.getAttribute('data-item-description');
+            // Événements
+            searchInput.addEventListener('input', performSearch);
 
-                    // Désactiver le bouton pendant la requête
-                    this.disabled = true;
-
-                    fetch('/favorites/toggle', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            type: type,
-                            item_id: itemId,
-                            item_name: itemName,
-                            item_category: itemCategory,
-                            item_description: itemDescription
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Erreur réseau');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            // Toggle de l'état visuel
-                            this.classList.toggle('favorited');
-
-                            const icon = this.querySelector('i');
-                            icon.classList.toggle('far');
-                            icon.classList.toggle('fas');
-
-                            // Afficher un toast de confirmation
-                            const toast = new bootstrap.Toast(document.createElement('div'));
-                            const toastElement = document.createElement('div');
-                            toastElement.className = 'position-fixed top-0 end-0 p-3';
-                            toastElement.style.zIndex = '9999';
-                            toastElement.innerHTML = `
-                                <div class="toast show" role="alert">
-                                    <div class="toast-header">
-                                        <i class="fas fa-heart text-danger me-2"></i>
-                                        <strong class="me-auto">Favoris</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-                                    </div>
-                                    <div class="toast-body">
-                                        ${data.message}
-                                    </div>
-                                </div>
-                            `;
-                            document.body.appendChild(toastElement);
-
-                            // Supprimer le toast après 3 secondes
-                            setTimeout(() => {
-                                toastElement.remove();
-                            }, 3000);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erreur:', error);
-                    })
-                    .finally(() => {
-                        // Réactiver le bouton
-                        this.disabled = false;
-                    });
-                });
-            });
-
-            // Événements pour les filtres par catégorie
             filterButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    // Mettre à jour les boutons actifs
+                button.addEventListener('click', function() {
+                    // Retirer la classe active de tous les boutons
                     filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Ajouter la classe active au bouton cliqué
                     this.classList.add('active');
 
-                    // Appliquer le filtre
-                    filterByCategory(this.getAttribute('data-filter'));
+                    const category = this.getAttribute('data-filter');
+                    performFilter(category);
                 });
-            });
-
-            // Événement pour la recherche
-            searchInput.addEventListener('input', function () {
-                searchEcoles(this.value.trim());
-            });
-
-            // Initialiser le compteur
-            filterByCategory('all');
-
-            // Animation d'apparition des cartes
-            ecoleItems.forEach((item, index) => {
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-
-                setTimeout(() => {
-                    item.style.transition = 'all 0.5s ease';
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0)';
-                }, index * 100);
             });
         });
     </script>
