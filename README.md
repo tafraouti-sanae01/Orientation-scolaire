@@ -46,63 +46,6 @@ Cette plateforme web est dédiée à l'orientation des étudiants marocains apr�
 - **Gestion des concours** : Administration des concours et échéances
 - **Statistiques** : Tableaux de bord et analyses
 
-## 🚀 Installation
-
-### Prérequis
-- PHP 8.2 ou supérieur
-- Composer
-- Node.js et npm
-- SQLite (ou MySQL/PostgreSQL)
-
-### Étapes d'installation
-
-1. **Cloner le repository**
-   ```bash
-   git clone https://github.com/votre-username/orientation-scolaire.git
-   cd orientation-scolaire
-   ```
-
-2. **Installer les dépendances PHP**
-   ```bash
-   composer install
-   ```
-
-3. **Installer les dépendances JavaScript**
-   ```bash
-   npm install
-   ```
-
-4. **Configuration de l'environnement**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-5. **Configuration de la base de données**
-   ```bash
-   # Pour SQLite (recommandé pour le développement)
-   touch database/database.sqlite
-   
-   # Ou configurer MySQL/PostgreSQL dans le fichier .env
-   ```
-
-6. **Exécuter les migrations et seeders**
-   ```bash
-   php artisan migrate --seed
-   ```
-
-7. **Compiler les assets**
-   ```bash
-   npm run build
-   # ou pour le développement
-   npm run dev
-   ```
-
-8. **Lancer le serveur**
-   ```bash
-   php artisan serve
-   ```
-
 ## 🎮 Utilisation
 
 ### Pour les étudiants
@@ -121,7 +64,6 @@ Cette plateforme web est dédiée à l'orientation des étudiants marocains apr�
 
 ### Backend
 - **Laravel 12** : Framework PHP moderne
-- **Eloquent ORM** : Gestion de base de données
 - **Authentication** : Système d'authentification intégré
 - **Migrations** : Gestion des schémas de base de données
 
@@ -131,15 +73,6 @@ Cette plateforme web est dédiée à l'orientation des étudiants marocains apr�
 - **Tailwind CSS** : Framework CSS utilitaire
 - **Alpine.js** : Framework JavaScript léger
 - **Vite** : Build tool moderne
-
-### Base de données
-- **SQLite** : Base de données par défaut
-- **MySQL/PostgreSQL** : Support pour bases de données relationnelles
-
-### Outils de développement
-- **Pest** : Framework de tests PHP
-- **Laravel Pint** : Code style fixer
-- **Laravel Pail** : Monitoring des logs
 
 ## 📊 Structure du projet
 
@@ -161,50 +94,6 @@ orientation-scolaire/
 │   └── images/            # Images et assets
 └── tests/                 # Tests automatisés
 ```
-
-## 🧪 Tests
-
-Exécuter les tests :
-```bash
-php artisan test
-```
-
-## 📈 Fonctionnalités à venir
-
-- [ ] Système de messagerie entre étudiants
-- [ ] Forum de discussion
-- [ ] Tests d'orientation automatisés
-- [ ] Application mobile
-- [ ] Intégration avec les plateformes d'inscription
-- [ ] Système de notifications push
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! Pour contribuer :
-
-1. Fork le projet
-2. Créer une branche pour votre fonctionnalité (`git checkout -b feature/nouvelle-fonctionnalite`)
-3. Commit vos changements (`git commit -m 'Ajouter une nouvelle fonctionnalité'`)
-4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
-5. Ouvrir une Pull Request
-
-## 📝 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-## 📞 Support
-
-Pour toute question ou problème :
-- Ouvrir une [issue](https://github.com/votre-username/orientation-scolaire/issues)
-- Contacter l'équipe de développement
-
-## 🙏 Remerciements
-
-- Laravel Framework
-- Bootstrap et Tailwind CSS
-- Tous les contributeurs du projet
-
----
 
 <p align="center">
   <strong>Fait avec ❤️ pour les étudiants marocains</strong>
